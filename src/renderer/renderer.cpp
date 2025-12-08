@@ -17,17 +17,13 @@ namespace menu
                 m_wnd_class = { sizeof(WNDCLASSEXW), CS_CLASSDC, wnd_proc, 0L, 0L, GetModuleHandleW(NULL), NULL, NULL, NULL, NULL, L"PhasMenu", NULL };
                 RegisterClassExW(&m_wnd_class);
 
-                gui_hwnd = ::CreateWindowExW(WS_EX_TOPMOST, m_wnd_class.lpszClassName, L"PhasMenu", WS_POPUPWINDOW, 0, 0, 805, 366, NULL, NULL, m_wnd_class.hInstance, NULL);
+                gui_hwnd = ::CreateWindowExW(WS_EX_TOPMOST, m_wnd_class.lpszClassName, L"PhasMenu", WS_POPUP, 0, 0, 805, 366, NULL, NULL, m_wnd_class.hInstance, NULL);
 
                 if (!create_device(gui_hwnd))
-                {
                     destroy();
-                }
 
-                //SetLayeredWindowAttributes(gui_hwnd, RGB(0, 0, 0), 255, LWA_ALPHA);
                 ShowWindow(gui_hwnd, SW_SHOW);
                 UpdateWindow(gui_hwnd);
-
 
                 ImGui_ImplWin32_EnableDpiAwareness();
 
@@ -70,10 +66,10 @@ namespace menu
                 ImGui_ImplWin32_Init(gui_hwnd);
                 ImGui_ImplDX11_Init(m_d3d_device, m_d3d_device_context);
 
+                g_gui.init();
                 while (m_running)
                 {
                     loop();
-
                 }
                 cleanup();
             }).detach();
@@ -117,8 +113,8 @@ namespace menu
         ImGui::Render();
 
         m_d3d_device_context->OMSetRenderTargets(1, &m_main_render_target_view, nullptr);
-        float a[4] = { 0, 0, 0, 0 };
-        m_d3d_device_context->ClearRenderTargetView(m_main_render_target_view, a);
+        float clear_color[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
+        m_d3d_device_context->ClearRenderTargetView(m_main_render_target_view, clear_color);
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
 
         HRESULT hr = m_swapchain->Present(1, 0);

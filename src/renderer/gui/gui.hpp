@@ -5,6 +5,7 @@ namespace menu
 	class gui
 	{
 	public:
+		void init();
 		void render();
 		void handle_input();
 
