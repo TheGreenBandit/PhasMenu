@@ -12,6 +12,7 @@
 #include <consoleapi.h>
 #include <filesystem>
 #include <stack>
+#include <d3d11.h>
 
 #include <wrl/client.h>
 #include <nlohmann/json.hpp>s

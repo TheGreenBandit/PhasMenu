@@ -15,14 +15,11 @@ namespace menu
 		m_running   = true;
 		m_save_file = save_file;
 		//load();
-        LOG(INFO) << "Load settings";
-		g_thread_pool->push([this] {
-            LOG(INFO) << "0 settings";
+		g_thread_pool->push([this]
+        {
 			while (m_running)
 			{
-                LOG(INFO) << "1 settings";
 				std::this_thread::sleep_for(100ms);
-                LOG(INFO) << "sAVE settings";
 				//if (loaded)
 				//	save();
 			}

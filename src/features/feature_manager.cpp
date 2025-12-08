@@ -23,6 +23,5 @@ namespace menu
 
 	void feature_manager::loop()
 	{
-		LOG(INFO) << "FM tick";
 	}
 }

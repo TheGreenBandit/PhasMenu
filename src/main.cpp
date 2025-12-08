@@ -1,6 +1,7 @@
 #include "common.hpp"
 #include "memory/hooking/hooking.hpp"
 #include "thread_pool.hpp"
+#include "renderer/renderer.hpp"
 
 using namespace menu;
 
@@ -27,6 +28,7 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 
 				g.init(g_file_manager.get_project_file("./settings.json"));
 				g_feature_manager.init();
+				g_renderer.init();
 
 				LOG(INFO) << "Settings Loaded.";
 
@@ -35,14 +37,13 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 				LOG(INFO) << "Hooking enabled.";
 				while (!GetAsyncKeyState(VK_DELETE))
 				{
-					LOG(INFO) << "Running...";
 					std::this_thread::sleep_for(10ms);
 				}
 				g_running = false;
 				//g_hooking->disable();
 
 				g.destroy();
-
+				g_renderer.destroy();
 				g_feature_manager.destroy();
 				LOG(INFO) << "Destroyed feature manager.";
 
