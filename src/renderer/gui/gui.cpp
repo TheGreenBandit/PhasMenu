@@ -1,4 +1,6 @@
 #include "gui.hpp"
+#include "game/cursor.h"
+#include "renderer/renderer.hpp"
 
 namespace menu
 {
@@ -46,12 +48,32 @@ namespace menu
 		ImGui::SetNextWindowSize(ImVec2(805, 366));
 		ImGui::Begin("PhasMenu", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
 		ImGui::Button("Welcome");
+        if (ImGui::Button("Test Log"))
+            LOG(INFO) << "TEST";
 		ImGui::End();
 	}
 
 	void gui::handle_input()
 	{
-		if (GetAsyncKeyState(VK_INSERT) & 1)
-			menu_open = !menu_open;
+        //static SDK::CursorLockMode prev = SDK::CursorLockMode::Locked;//pretty sure i dont need this whole cursor bit, just an example for myself rn
+        //if (menu_open)
+        //{
+        //    
+        //    SDK::Cursor_Set_Visible_ptr(true, nullptr);
+        //    SDK::Cursor_Set_LockState_ptr(SDK::CursorLockMode::None, nullptr);
+        //}
+        //else
+        //{
+        //    SDK::Cursor_Set_Visible_ptr(false, nullptr);
+        //    SDK::Cursor_Set_LockState_ptr(prev, nullptr);
+        //}
+        if (GetAsyncKeyState(VK_INSERT) & 1)//real switcheroo
+        {
+            if (!menu_open)
+				SetForegroundWindow(g_renderer.gui_hwnd);
+            else
+                SetForegroundWindow(FindWindowA(NULL, "Phasmophobia"));
+            menu_open = !menu_open;
+        }
 	}
 }

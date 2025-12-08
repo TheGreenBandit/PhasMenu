@@ -27,10 +27,13 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 				LOG(INFO) << "Thread pool initialized.";
 
 				g.init(g_file_manager.get_project_file("./settings.json"));
-				g_feature_manager.init();
-				g_renderer.init();
-
 				LOG(INFO) << "Settings Loaded.";
+				g_feature_manager.init();
+				LOG(INFO) << "Features Loaded.";
+				g_renderer.init();
+				LOG(INFO) << "Renderer Loaded.";
+				g_il2cpp.init();
+				LOG(INFO) << "Il2cpp helper Loaded.";
 
 
 				//g_hooking->enable();

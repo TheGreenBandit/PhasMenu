@@ -23,6 +23,7 @@
 #include "core/file_manager/file_manager.hpp"
 #include "features/feature_manager.hpp"
 #include "util/logger/logger.hpp"
+#include "util/il2cpp/il2cpp.hpp"
 
 namespace menu
 {

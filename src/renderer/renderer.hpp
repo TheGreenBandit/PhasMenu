@@ -5,7 +5,6 @@ namespace menu
 	class renderer
 	{
 		bool m_running = false;
-		HWND gui_hwnd;
 		WNDCLASSEXW m_wnd_class;
 		ID3D11Device* m_d3d_device = nullptr;
 		ID3D11DeviceContext* m_d3d_device_context = nullptr;
@@ -22,6 +21,8 @@ namespace menu
 		static LRESULT WINAPI wnd_proc(HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 	public:
+		HWND gui_hwnd;
+
 		void loop();
 		void init();
 		void cleanup();

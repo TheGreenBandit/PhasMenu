@@ -10,7 +10,7 @@ namespace menu
 		void handle_input();
 
 
-		bool menu_open = true;
+		bool menu_open = false;
 		ImFont* segoeui_font;
 	};
 	static inline gui g_gui;
