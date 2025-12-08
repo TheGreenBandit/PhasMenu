@@ -9,7 +9,7 @@ namespace menu
 		void render();
 		void handle_input();
 
-
+		bool test_bool = false;
 		bool menu_open = false;
 		ImFont* segoeui_font;
 	};

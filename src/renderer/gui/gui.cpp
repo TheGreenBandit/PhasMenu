@@ -43,13 +43,13 @@ namespace menu
 	void gui::render()
 	{
 		handle_input();
-
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImVec2(805, 366));
 		ImGui::Begin("PhasMenu", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
 		ImGui::Button("Welcome");
         if (ImGui::Button("Test Log"))
             LOG(INFO) << "TEST";
+        ImGui::Checkbox("Test INf Sprint", &test_bool);
 		ImGui::End();
 	}
 

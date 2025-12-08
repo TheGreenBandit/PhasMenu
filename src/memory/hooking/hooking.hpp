@@ -1,8 +1,10 @@
+#pragma once
+
 #include "common.hpp"
 #include "detour/detour_hook.hpp"
 #include "vmt/vmt_hook.hpp"
 #include <dxgi.h>
-
+#include "game/sdk.hpp"
 #include <MinHook.h>
 
 namespace menu
@@ -20,11 +22,9 @@ namespace menu
 		}
 	};
 
-	class hooks
+	struct hooks
 	{
-		static HRESULT swapchain_present(IDXGISwapChain* this_, UINT sync_interval, UINT flags);
-		static HRESULT swapchain_resizebuffers(IDXGISwapChain* this_, UINT buffer_count, UINT width, UINT height, DXGI_FORMAT new_format, UINT swapchain_flags);
-		static LRESULT wndproc(HWND hwnd, UINT msg, WPARAM wparam, LPARAM lparam);
+		static void PlayerStamina_Update(sdk::PlayerStamina* ps, method_info* mi);
 	};
 
 	class hooking
@@ -100,10 +100,6 @@ namespace menu
 	private:
 		bool m_enabled{};
 		minhook_keepalive m_minhook_keepalive;
-
-		vmt_hook m_swapchain_hook;
-
-		WNDPROC m_og_wndproc = nullptr;
 
 		static inline std::vector<detour_hook_helper*> m_detour_hook_helpers;
 	};

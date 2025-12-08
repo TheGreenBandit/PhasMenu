@@ -34,19 +34,24 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 				LOG(INFO) << "Renderer Loaded.";
 				g_il2cpp.init();
 				LOG(INFO) << "Il2cpp helper Loaded.";
+				auto hooking_instance = std::make_unique<hooking>();
+				LOG(INFO) << "Hooking initialized.";
 
 
-				//g_hooking->enable();
+
+				g_hooking->enable();
 				LOG(INFO) << "Hooking enabled.";
 				while (!GetAsyncKeyState(VK_DELETE))
 				{
 					std::this_thread::sleep_for(10ms);
 				}
 				g_running = false;
-				//g_hooking->disable();
+				g_hooking->disable();
 
 				g.destroy();
 				g_renderer.destroy();
+				hooking_instance.reset();
+				LOG(INFO) << "Hooking uninitialized.";
 				g_feature_manager.destroy();
 				LOG(INFO) << "Destroyed feature manager.";
 

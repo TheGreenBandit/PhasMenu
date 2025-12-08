@@ -1,6 +1,6 @@
 #pragma once
 
-#include "common.hpp"
+#include "sdk.hpp"
 
 namespace menu::SDK
 {

@@ -12,7 +12,7 @@ namespace menu
     void renderer::init()
     {
         m_running = true;
-        std::thread([this]()
+        g_thread_pool->push([this]
             {
                 m_wnd_class = { sizeof(WNDCLASSEXW), CS_CLASSDC, wnd_proc, 0L, 0L, GetModuleHandleW(NULL), NULL, NULL, NULL, NULL, L"PhasMenu", NULL };
                 RegisterClassExW(&m_wnd_class);
@@ -70,9 +70,10 @@ namespace menu
                 while (m_running)
                 {
                     loop();
+
                 }
                 cleanup();
-            }).detach();
+            });
     }
 
 	void renderer::destroy()
