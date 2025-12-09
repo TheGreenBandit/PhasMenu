@@ -18,7 +18,7 @@ namespace menu::sdk
 		void* RotatingObjects;
 		void* LoopSource; // AudioSource
 		void* Noise; // Noise
-		/*Transform* */void* ParentObject;
+		Transform* ParentObject;
 		void* OnClip; // AudioClip
 		void* OffClip; // AudioClip
 		bool IsOn;

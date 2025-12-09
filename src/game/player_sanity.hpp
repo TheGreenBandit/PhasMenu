@@ -10,7 +10,7 @@ namespace menu::sdk
 		MonoBehaviourFields MonoBehaviourFields;
 		void* View; // PhotonView
 		Player* Player;
-		float Insanity;
+		float Insanity;//100 -insanity
 		float SanityUpdateTimer;
 		float SanityCheckTimer;
 		void* ShadowRenderTexture; // RenderTexture
