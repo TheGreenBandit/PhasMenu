@@ -3,6 +3,8 @@
 #include "sdk.hpp"
 #include "vector2.hpp"
 #include "vector3.hpp"
+#include "mouse_look.hpp"
+#include "camera.hpp"
 
 namespace menu::sdk
 {
@@ -17,14 +19,14 @@ namespace menu::sdk
 		float RunstepLength; // range 0 - 1
 		float StickToGroundForce;
 		float GravityMultiplier;
-		//MouseLook* MouseLook;
+		MouseLook* MouseLook;
 		bool UseFovKick;
 		void* FovKick; // FOVKick
 		bool UseHeadBob;
 		bool ToggleSprint;
 		void* HeadBob; // CurveControlledBob
 		float StepInterval;
-		//Camera* Camera;
+		Camera* Camera;
 		Vector2 Input;
 		Vector3 MoveDir;
 		//PhysicsCharacterController* CharacterController;

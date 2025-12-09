@@ -3,7 +3,11 @@
 
 namespace menu::sdk
 {
-	struct method_info
+	struct Quaternion
 	{
+		float X;
+		float Y;
+		float Z;
+		float W;
 	};
 }
