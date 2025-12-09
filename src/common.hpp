@@ -24,6 +24,7 @@
 #include "features/feature_manager.hpp"
 #include "util/logger/logger.hpp"
 #include "util/il2cpp/il2cpp.hpp"
+#include "renderer/fonts/font_awesome_5.h"
 
 namespace menu
 {

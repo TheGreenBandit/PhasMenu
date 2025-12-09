@@ -2,7 +2,7 @@
 
 #include "sdk.hpp"
 
-namespace menu::SDK
+namespace menu::sdk
 {
 	enum class CursorLockMode : int32_t
 	{

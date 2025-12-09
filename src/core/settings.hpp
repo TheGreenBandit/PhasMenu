@@ -24,6 +24,13 @@ namespace menu
 		nlohmann::json m_options;
 
 	public:
+		struct self
+		{
+			bool infinite_sprint = false;
+			bool fast_sprint = false;
+			float fast_sprint_value = 1.f;//normal
+		} self;
+
 		struct gui
 		{
 			int menu_toggle = VK_INSERT;

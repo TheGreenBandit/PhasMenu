@@ -54,12 +54,11 @@ namespace menu
                     fnt_cfg.MergeMode = true;
                     io.Fonts->AddFontFromMemoryTTF(font_data.get(), font_data_size, 20.f, &fnt_cfg, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
                     io.Fonts->AddFontFromMemoryTTF(font_data.get(), font_data_size, 20.f, &fnt_cfg, io.Fonts->GetGlyphRangesCyrillic());
-                    /*ImGui::MergeIconsWithLatestFont(20.f);
                     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
                     ImFontConfig icons_config;
                     icons_config.MergeMode = true;
                     icons_config.PixelSnapH = false;
-                    io.Fonts->AddFontFromFileTTF("widgets/font_awesome_5", 20.f, &icons_config, icons_ranges);*/
+                    io.Fonts->AddFontFromFileTTF("renderer/fonts/font_awesome_5", 20.f, &icons_config, icons_ranges);
                     io.Fonts->Build();
                 }
 
@@ -70,7 +69,6 @@ namespace menu
                 while (m_running)
                 {
                     loop();
-
                 }
                 cleanup();
             });

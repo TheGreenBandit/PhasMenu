@@ -25,6 +25,7 @@ namespace menu
 	struct hooks
 	{
 		static void PlayerStamina_Update(sdk::PlayerStamina* ps, method_info* mi);
+		static void FirstPersonController_Update(sdk::FirstPersonController* fpc, method_info* mi);
 	};
 
 	class hooking

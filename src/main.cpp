@@ -37,8 +37,6 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 				auto hooking_instance = std::make_unique<hooking>();
 				LOG(INFO) << "Hooking initialized.";
 
-
-
 				g_hooking->enable();
 				LOG(INFO) << "Hooking enabled.";
 				while (!GetAsyncKeyState(VK_DELETE))

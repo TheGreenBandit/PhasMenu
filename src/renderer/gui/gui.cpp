@@ -1,5 +1,4 @@
 #include "gui.hpp"
-#include "game/cursor.h"
 #include "renderer/renderer.hpp"
 
 namespace menu
@@ -40,34 +39,36 @@ namespace menu
         }
 	}
 
-	void gui::render()
+	void gui::render()//bug, discord overlay appears on loader, menu only crashes on reinject if gui was displayed previously, look into me, reproducible, find out what isnt clearing properly
 	{
 		handle_input();
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImVec2(805, 366));
 		ImGui::Begin("PhasMenu", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
+        ImGui::Text("PhasMenu Dev Staging");
+		ImGui::Separator();
+        ImGui::BeginChild("side_bar", ImVec2(50, 350));//side bar
+        ImGui::Button("H", ImVec2(50, 50));//home
+        ImGui::Button("S", ImVec2(50, 50));//self
+        ImGui::Button("V", ImVec2(50, 50));//visual
+        ImGui::Button(ICON_FA_COGS, ImVec2(50, 50));//settings
+        ImGui::EndChild();
+        ImGui::SameLine();
+        ImGui::BeginChild("main_view", ImVec2(755, 350));
 		ImGui::Button("Welcome");
         if (ImGui::Button("Test Log"))
             LOG(INFO) << "TEST";
-        ImGui::Checkbox("Test INf Sprint", &test_bool);
+        ImGui::Checkbox("Speed", &g.self.fast_sprint);
+        ImGui::SameLine();
+        ImGui::SliderFloat("Value", &g.self.fast_sprint_value, .1, 5);
+        ImGui::Checkbox("Test INf Sprint", &g.self.infinite_sprint);
+        ImGui::EndChild();
 		ImGui::End();
 	}
 
 	void gui::handle_input()
 	{
-        //static SDK::CursorLockMode prev = SDK::CursorLockMode::Locked;//pretty sure i dont need this whole cursor bit, just an example for myself rn
-        //if (menu_open)
-        //{
-        //    
-        //    SDK::Cursor_Set_Visible_ptr(true, nullptr);
-        //    SDK::Cursor_Set_LockState_ptr(SDK::CursorLockMode::None, nullptr);
-        //}
-        //else
-        //{
-        //    SDK::Cursor_Set_Visible_ptr(false, nullptr);
-        //    SDK::Cursor_Set_LockState_ptr(prev, nullptr);
-        //}
-        if (GetAsyncKeyState(VK_INSERT) & 1)//real switcheroo
+        if (GetAsyncKeyState(VK_INSERT) & 1)
         {
             if (!menu_open)
 				SetForegroundWindow(g_renderer.gui_hwnd);

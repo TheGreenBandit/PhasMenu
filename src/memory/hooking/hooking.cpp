@@ -13,18 +13,13 @@ namespace menu
 {
 	hooking::hooking()
 	{
-		// The only instances in that vector at this point should only be the "lazy" hooks
-		// aka the ones that still don't have their m_target assigned
 		try
 		{
-			LOG(INFO) << "0";
 			for (auto& detour_hook_helper : m_detour_hook_helpers)
 				detour_hook_helper->m_detour_hook->set_target_and_create_hook(detour_hook_helper->m_on_hooking_available());
-			LOG(INFO) << "1";
-			LOG(INFO) << (void*)sdk::PlayerStamina_Update_ptr;
-			LOG(INFO) << "1.5";
+
 			detour_hook_helper::add<hooks::PlayerStamina_Update>("PSU", (void*)sdk::PlayerStamina_Update_ptr);
-			LOG(INFO) << "2";
+			detour_hook_helper::add<hooks::FirstPersonController_Update>("FPCU", (void*)sdk::FirstPersonController_Update_ptr);//seems like invalid mememory sig
 		}
 		catch (std::exception& e)
 		{
@@ -43,12 +38,10 @@ namespace menu
 
 	void hooking::enable()
 	{
-		LOG(INFO) << "4";
 		for (const auto& detour_hook_helper : m_detour_hook_helpers)
 			detour_hook_helper->m_detour_hook->enable();
-		LOG(INFO) << "5";
+
 		MH_ApplyQueued();
-		LOG(INFO) << "6";
 		m_enabled = true;
 	}
 
