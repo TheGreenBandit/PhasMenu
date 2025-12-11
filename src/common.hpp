@@ -25,6 +25,7 @@
 #include "util/logger/logger.hpp"
 #include "util/il2cpp/il2cpp.hpp"
 #include "renderer/fonts/font_awesome_5.h"
+#include "game/sdk.hpp"
 
 namespace menu
 {
@@ -37,4 +38,9 @@ namespace menu
 	static HANDLE g_main_thread;
 	static DWORD g_main_thread_id;
 	static std::atomic_bool g_running = true;
+
+	namespace game
+	{
+		static sdk::Network* network;
+	}
 }

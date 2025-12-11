@@ -2,6 +2,7 @@
 #include "memory/hooking/hooking.hpp"
 #include "thread_pool.hpp"
 #include "renderer/renderer.hpp"
+#include "util/game_util.hpp"
 
 using namespace menu;
 
@@ -10,7 +11,7 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 	if (reason == DLL_PROCESS_ATTACH)
 	{
 		DisableThreadLibraryCalls(hmod);
-
+		
 		g_hmodule = hmod;
 		g_main_thread = CreateThread(
 			nullptr,
@@ -39,6 +40,7 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 
 				g_hooking->enable();
 				LOG(INFO) << "Hooking enabled.";
+
 				while (!GetAsyncKeyState(VK_DELETE))
 				{
 					std::this_thread::sleep_for(10ms);

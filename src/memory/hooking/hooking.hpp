@@ -6,6 +6,7 @@
 #include <dxgi.h>
 #include "game/sdk.hpp"
 #include <MinHook.h>
+#include "memory/pointers.hpp"
 
 namespace menu
 {
@@ -24,8 +25,10 @@ namespace menu
 
 	struct hooks
 	{
-		static void PlayerStamina_Update(sdk::PlayerStamina* ps, method_info* mi);
+		static void PlayerStamina_Update(sdk::PlayerStamina* ps, method_info* mi);//todo make these follow proper formatting
 		static void FirstPersonController_Update(sdk::FirstPersonController* fpc, method_info* mi);
+		static sdk::Network* network_getnetwork(method_info* mi);
+		//static void ghostai_start(sdk::GhostAI* gai, method_info* mi);
 	};
 
 	class hooking

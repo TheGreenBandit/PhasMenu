@@ -3,6 +3,8 @@
 //#include "core/toggle/toggle_feature.hpp"
 #include "renderer/gui/gui.hpp"
 #include "game/sdk.hpp"
+#include "util/game_util.hpp"
+
 namespace menu
 {
 	void feature_manager::init()
@@ -23,10 +25,28 @@ namespace menu
 		m_running = false;
 	}
 
-	void feature_manager::loop()
+	void feature_manager::loop()//test
 	{
-		if (g_gui.test_bool)
-			sdk::PlayerStamina_PreventStaminaDrainForTime_ptr(1.f, nullptr);
+		auto net = g_game_util->get_network();//this does work here, definitely can work out features this way
+
+		if (g.self.fast_sprint)
+		{
+			auto fpc_ = net->Fields.LocalPlayer->Fields.FirstPersonController;
+			LOG(INFO) << fpc_->Fields.CurrentSpeed;
+			fpc_->Fields.CurrentSpeed = ((!fpc_->Fields.CanSprint || !fpc_->Fields.IsSprinting) ? 1.6 * g.self.fast_sprint_value : 3.0 * g.self.fast_sprint_value);
+			fpc_->Fields.UseHeadBob = false;
+		}
+
+		if (g.self.infinite_sprint)
+		{
+			auto lp = net->Fields.LocalPlayer;
+			auto ps_ = lp->Fields.PlayerStamina;
+			ps_->Fields.CurrentStamina = 10;
+			ps_->Fields.StaminaDrained = false;
+		}
+
+		//if (g_gui.test_bool)
+			//sdk::PlayerStamina_PreventStaminaDrainForTime_ptr(1.f, nullptr);
 		//for (auto& feature : m_features)
 		{
 		//	if (feature->get_type() == feature_type::toggle)

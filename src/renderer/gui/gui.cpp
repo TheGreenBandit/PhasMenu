@@ -55,7 +55,8 @@ namespace menu
         ImGui::EndChild();
         ImGui::SameLine();
         ImGui::BeginChild("main_view", ImVec2(755, 350));
-		ImGui::Button("Welcome");
+        if (ImGui::Button("DUMP TO FILE"))
+            g_il2cpp.dump_to_file(g_file_manager.get_base_dir() / "sdk_dump.hpp");
         if (ImGui::Button("Test Log"))
             LOG(INFO) << "TEST";
         ImGui::Checkbox("Speed", &g.self.fast_sprint);

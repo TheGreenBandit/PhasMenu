@@ -46,6 +46,5 @@ namespace menu::sdk
 		FirstPersonControllerFields Fields;
 	};
 
-	DECLARE_POINTER(FirstPersonController_Update, void (*)(FirstPersonController* firstPersonController, method_info* methodInfo), "Assembly-CSharp", "",
-		"FirstPersonController", "Update", 0);
+	DECLARE_POINTER(FirstPersonController_Update, void (*)(FirstPersonController* firstPersonController, method_info* methodInfo), "Assembly-CSharp", "", "FirstPersonController", "Update", 0);
 }
