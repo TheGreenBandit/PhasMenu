@@ -11,7 +11,7 @@ namespace menu
 		void checkbox(std::string_view featurelabel)
 		{
 			toggle_feature* feature = feature::get_togglefeature_from_label(featurelabel);
-			if (feature == nullptr)
+			if (feature == g_default_toggle)
 			{
 				ImGui::Text(std::format("NULL FEATURE! {}", featurelabel.data()).c_str());
 				return;
@@ -29,6 +29,11 @@ namespace menu
 		void checkboxslider(std::string featurelabel, std::string_view value = ".", float min = 0, float max = 200)
 		{
 			toggle_feature* feature = feature::get_togglefeature_from_label(featurelabel);
+			if (feature == g_default_toggle)
+			{
+				ImGui::Text(std::format("NULL FEATURE! {}", featurelabel.data()).c_str());
+				return;
+			}
 			ImGui::Checkbox(featurelabel.c_str(), &feature->is_enabled());
 			if (ImGui::IsItemHovered() && feature->description() != "")
 				ImGui::SetTooltip(feature->description().c_str());
@@ -36,11 +41,7 @@ namespace menu
 			ImGui::SameLine();
 			ImGui::PushID(feature->label().c_str());
 			ImGui::SliderFloat(value != "." ? value.data() : featurelabel.c_str(), &feature->value(), min, max);
-			//switch (decltype(T))todo something like this
-			//{
-			//	case float: ImGui::SliderFloat(value != "." ? value.data() : featurelabel.c_str(), &feature->value(), min, max); break;
-			//	case int: ImGui::SliderInt(value != "." ? value.data() : featurelabel.c_str(), &feature->value(), min, max); break;
-			//}
+			ImGui::PopID();
 			
 			if (ImGui::IsItemHovered() && feature->description() != "")
 				ImGui::SetTooltip(feature->description().c_str());

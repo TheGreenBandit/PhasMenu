@@ -15,6 +15,7 @@ namespace menu::feature
 			if (i == g_toggle_features.size()) //return if no find any
 				return g_default_toggle;
 		}
+		return g_default_toggle;
 	}
 
 	inline execute_feature* get_executefeature_from_label(std::string_view label)

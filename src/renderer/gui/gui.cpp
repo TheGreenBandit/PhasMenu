@@ -66,7 +66,7 @@ namespace menu
         try
         {
             g_gui_util->checkbox("Infinite Sprint");
-            //g_gui_util->checkboxslider("Movement Speed", ".", 0, 10);
+            g_gui_util->checkboxslider("Movement Speed", ".", 0, 10);
         }
         catch (std::exception e)
         {

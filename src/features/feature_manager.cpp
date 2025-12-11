@@ -27,16 +27,6 @@ namespace menu
 
 	void feature_manager::loop()//test
 	{
-		auto net = g_game_util->get_network();
-
-		if (g.self.fast_sprint)
-		{
-			auto fpc_ = net->Fields.LocalPlayer->Fields.FirstPersonController;
-			LOG(INFO) << fpc_->Fields.CurrentSpeed;
-			fpc_->Fields.CurrentSpeed = ((!fpc_->Fields.CanSprint || !fpc_->Fields.IsSprinting) ? 1.6 * g.self.fast_sprint_value : 3.0 * g.self.fast_sprint_value);
-			fpc_->Fields.UseHeadBob = false;
-		}
-
 		for (auto feature : g_toggle_features)
 		{
 			if (feature->last_state() != feature->is_enabled())

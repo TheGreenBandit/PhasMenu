@@ -9,12 +9,18 @@ namespace menu
 
 		virtual void on_tick() override
 		{
-			auto net = g_game_util->get_network();//must be in each individual loop, maybe make tick have the network argument?
-			{
-				auto lp = net->Fields.LocalPlayer;
-				LOG(INFO) << lp->Fields.MovementSpeed;
-				lp->Fields.MovementSpeed = value();
-			}
+			auto net = g_game_util->get_network();
+			auto fpc_ = net->Fields.LocalPlayer->Fields.FirstPersonController;
+			fpc_->Fields.CurrentSpeed = ((!fpc_->Fields.CanSprint || !fpc_->Fields.IsSprinting) ? 1.6 * value() : 3.0 * value());
+			fpc_->Fields.UseHeadBob = false;
+		}
+
+		virtual void on_disable() override
+		{
+			auto net = g_game_util->get_network();
+			auto fpc_ = net->Fields.LocalPlayer->Fields.FirstPersonController;
+			fpc_->Fields.CurrentSpeed = 1.6;
+			fpc_->Fields.UseHeadBob = true;
 		}
 	};
 	movement_speed g_movement_speed("Movement Speed", "Override your speed to whatever you want.");
