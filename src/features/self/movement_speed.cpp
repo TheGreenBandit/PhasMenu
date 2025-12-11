@@ -3,7 +3,7 @@
 
 namespace menu
 {
-	class infinite_sprint : toggle_feature
+	class movement_speed : toggle_feature
 	{
 		using toggle_feature::toggle_feature;
 
@@ -12,12 +12,10 @@ namespace menu
 			auto net = g_game_util->get_network();//must be in each individual loop, maybe make tick have the network argument?
 			{
 				auto lp = net->Fields.LocalPlayer;
-				auto ps_ = lp->Fields.PlayerStamina;
-				ps_->Fields.CurrentStamina = 10;
-				ps_->Fields.StaminaDrained = false;
-				//lp->Fields.MovementSpeed
+				LOG(INFO) << lp->Fields.MovementSpeed;
+				lp->Fields.MovementSpeed = value();
 			}
 		}
 	};
-	infinite_sprint g_infinite_sprint("Infinite Sprint", "Prevents your stamina from draining while sprinting.");
+	movement_speed g_movement_speed("Movement Speed", "Override your speed to whatever you want.");
 }

@@ -1,6 +1,6 @@
 #include "feature_manager.hpp"
 #include "thread_pool.hpp"
-//#include "core/toggle/toggle_feature.hpp"
+#include "core/toggle_feature.hpp"
 #include "renderer/gui/gui.hpp"
 #include "game/sdk.hpp"
 #include "util/game_util.hpp"
@@ -27,7 +27,7 @@ namespace menu
 
 	void feature_manager::loop()//test
 	{
-		auto net = g_game_util->get_network();//this does work here, definitely can work out features this way
+		auto net = g_game_util->get_network();
 
 		if (g.self.fast_sprint)
 		{
@@ -37,24 +37,16 @@ namespace menu
 			fpc_->Fields.UseHeadBob = false;
 		}
 
-		if (g.self.infinite_sprint)
+		for (auto feature : g_toggle_features)
 		{
-			auto lp = net->Fields.LocalPlayer;
-			auto ps_ = lp->Fields.PlayerStamina;
-			ps_->Fields.CurrentStamina = 10;
-			ps_->Fields.StaminaDrained = false;
-		}
-
-		//if (g_gui.test_bool)
-			//sdk::PlayerStamina_PreventStaminaDrainForTime_ptr(1.f, nullptr);
-		//for (auto& feature : m_features)
-		{
-		//	if (feature->get_type() == feature_type::toggle)
+			if (feature->last_state() != feature->is_enabled())
 			{
-		//		auto m_toggle_feature = static_cast<toggle_feature*>(feature);
-				//if (m_toggle_feature->is_enabled())
-				//	m_toggle_feature->on_tick();
+				feature->last_state() ? feature->on_disable() : feature->on_enable();
+				feature->last_state() = feature->is_enabled();
 			}
+
+			if (feature->is_enabled())
+				feature->on_tick();
 		}
 	}
 }

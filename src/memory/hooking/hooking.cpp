@@ -15,16 +15,12 @@ namespace menu
 	{
 		try
 		{
-			LOG(INFO) << "1";
 			for (auto& detour_hook_helper : m_detour_hook_helpers)
 				detour_hook_helper->m_detour_hook->set_target_and_create_hook(detour_hook_helper->m_on_hooking_available());
-			LOG(INFO) << "2";
+
 			detour_hook_helper::add<hooks::network_getnetwork>("NGN", (void*)sdk::Network_Get_Network_ptr);
-			LOG(INFO) << "3";
 			detour_hook_helper::add<hooks::PlayerStamina_Update>("PSU", (void*)sdk::PlayerStamina_Update_ptr);
-			LOG(INFO) << "4";
 			detour_hook_helper::add<hooks::FirstPersonController_Update>("FPCU", (void*)sdk::FirstPersonController_Update_ptr);
-			LOG(INFO) << "5";
 		}
 		catch (std::exception& e)
 		{
@@ -43,12 +39,10 @@ namespace menu
 
 	void hooking::enable()
 	{
-		LOG(INFO) << "5";
 		for (const auto& detour_hook_helper : m_detour_hook_helpers)
 			detour_hook_helper->m_detour_hook->enable();
-		LOG(INFO) << "6";
+
 		MH_ApplyQueued();
-		LOG(INFO) << "7";
 		m_enabled = true;
 	}
 
@@ -75,15 +69,11 @@ namespace menu
 	{
 		if (g_hooking && g_hooking->m_enabled)
 		{
-			LOG(INFO) << "8";
 			if (m_on_hooking_available)
 				m_detour_hook->set_target_and_create_hook(m_on_hooking_available());
-			LOG(INFO) << "9";
 
 			m_detour_hook->enable();
-			LOG(INFO) << "10";
 			MH_ApplyQueued();
-			LOG(INFO) << "11";
 		}
 	}
 }

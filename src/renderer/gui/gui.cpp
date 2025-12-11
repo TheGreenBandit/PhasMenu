@@ -1,5 +1,6 @@
 #include "gui.hpp"
 #include "renderer/renderer.hpp"
+#include "util/gui_util.hpp"
 
 namespace menu
 {
@@ -62,7 +63,15 @@ namespace menu
         ImGui::Checkbox("Speed", &g.self.fast_sprint);
         ImGui::SameLine();
         ImGui::SliderFloat("Value", &g.self.fast_sprint_value, .1, 5);
-        ImGui::Checkbox("Test INf Sprint", &g.self.infinite_sprint);
+        try
+        {
+            g_gui_util->checkbox("Infinite Sprint");
+            //g_gui_util->checkboxslider("Movement Speed", ".", 0, 10);
+        }
+        catch (std::exception e)
+        {
+            LOG(WARNING) << "GUI ERROR: " << e.what();
+        }
         ImGui::EndChild();
 		ImGui::End();
 	}
