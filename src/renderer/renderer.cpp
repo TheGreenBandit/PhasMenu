@@ -3,6 +3,7 @@
 #include "backends/imgui_impl_win32.h"
 #include "gui/gui.hpp"
 #include "thread_pool.hpp"
+#include "widgets/imgui_notify.h"
 
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
     HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
@@ -17,11 +18,11 @@ namespace menu
                 m_wnd_class = { sizeof(m_wnd_class), CS_CLASSDC, wnd_proc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"PhasMenu", nullptr };
                 RegisterClassExW(&m_wnd_class);
 
-                gui_hwnd = ::CreateWindowW(m_wnd_class.lpszClassName, L"PhasMenu", WS_POPUPWINDOW, 0, 0, 50, 50, NULL, NULL, m_wnd_class.hInstance, NULL);
-
+                gui_hwnd = ::CreateWindowExW(WS_EX_TOPMOST | WS_EX_TRANSPARENT, m_wnd_class.lpszClassName, L"PhasMenu", WS_POPUPWINDOW, 0, 0, 50, 50, NULL, NULL, m_wnd_class.hInstance, NULL);
+                SetLayeredWindowAttributes(gui_hwnd, RGB(0, 0, 0), 255, LWA_ALPHA);
                 if (!create_device(gui_hwnd))
                     destroy();
-
+                
                 ShowWindow(gui_hwnd, SW_HIDE);
                 UpdateWindow(gui_hwnd);
 
@@ -32,14 +33,11 @@ namespace menu
                 ImGuiIO& io = ImGui::GetIO(); (void)io;
                 io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
                 io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
-                
+
                 io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;//enable multiviewports
 
                 ImGui::StyleColorsDark();
                 ImGuiStyle& style = ImGui::GetStyle();
-
-                ImGui_ImplWin32_Init(gui_hwnd);
-                ImGui_ImplDX11_Init(m_d3d_device, m_d3d_device_context);
 
                 std::filesystem::path w = std::getenv("SYSTEMROOT");
                 std::filesystem::path windows_fonts = w.string() + "//Fonts";
@@ -62,14 +60,17 @@ namespace menu
                     fnt_cfg.MergeMode = true;
                     io.Fonts->AddFontFromMemoryTTF(font_data.get(), font_data_size, 20.f, &fnt_cfg, io.Fonts->GetGlyphRangesChineseSimplifiedCommon());
                     io.Fonts->AddFontFromMemoryTTF(font_data.get(), font_data_size, 20.f, &fnt_cfg, io.Fonts->GetGlyphRangesCyrillic());
+                    ImGui::MergeIconsWithLatestFont(20.f);
                     static const ImWchar icons_ranges[] = { ICON_MIN_FA, ICON_MAX_FA, 0 };
                     ImFontConfig icons_config;
                     icons_config.MergeMode = true;
                     icons_config.PixelSnapH = false;
-                    io.Fonts->AddFontFromFileTTF("renderer/fonts/font_awesome_5", 20.f, &icons_config, icons_ranges);
+                    io.Fonts->AddFontFromFileTTF("widgets/font_awesome_5", 20.f, &icons_config, icons_ranges);
                     io.Fonts->Build();
                 }
-
+                ImGui_ImplWin32_Init(gui_hwnd);
+                ImGui_ImplDX11_Init(m_d3d_device, m_d3d_device_context);
+                ImGui_ImplWin32_EnableAlphaCompositing(gui_hwnd);
                 g_gui.init();
                 while (m_running)
                 {
@@ -106,12 +107,11 @@ namespace menu
             m_resize_width = m_resize_height = 0;
             create_render_target();
         }
-        ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 0.50f);
+        ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 0.00f);
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
         g_gui.render();
-        handle_window_movement();
         ImGui::EndFrame();
         ImGui::Render();
         const float clear_color_with_alpha[4] = { clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w };
@@ -205,7 +205,7 @@ namespace menu
         sd.SampleDesc.Count = 1;
         sd.SampleDesc.Quality = 0;
         sd.Windowed = TRUE;
-
+        
         sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
         UINT createDeviceFlags = 0;

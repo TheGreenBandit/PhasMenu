@@ -5,8 +5,8 @@ message(STATUS "Setting up ${LIB_NAME}")
 
 FetchContent_Declare(
     ${LIB_NAME}
-    GIT_REPOSITORY https://github.com/ocornut/imgui
-    GIT_TAG 9ca7ea00c80c1cb95b31cb3efa6f88cea33edf2a
+    GIT_REPOSITORY https://github.com/TheGreenBandit/imgui--5988/
+    GIT_TAG 1bcd206f5eab6710960216e5f2dd214991707221
     GIT_PROGRESS TRUE
 )
 FetchContent_MakeAvailable(${LIB_NAME})

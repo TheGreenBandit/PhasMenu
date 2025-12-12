@@ -1,6 +1,7 @@
 #include "gui.hpp"
 #include "renderer/renderer.hpp"
 #include "util/gui_util.hpp"
+#include "util/notify.hpp"
 
 namespace menu
 {
@@ -8,9 +9,9 @@ namespace menu
 	{
         ImVec4* colors = ImGui::GetStyle().Colors;
         {
-            colors[ImGuiCol_WindowBg] = ImVec4(0.03f, 0.03f, 0.03f, 0.10f);
-            colors[ImGuiCol_ChildBg] = ImVec4(0.05f, 0.05f, 0.05f, 1.00f);
-            colors[ImGuiCol_Border] = ImVec4(0.10f, 0.30f, 0.10f, 1.00f);
+            colors[ImGuiCol_WindowBg] = ImVec4(0.03f, 0.03f, 0.03f, 0.50f);
+            colors[ImGuiCol_ChildBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.50f);
+            colors[ImGuiCol_Border] = ImVec4(0.10f, 0.50f, 0.10f, 1.00f);
 
             colors[ImGuiCol_FrameBg] = ImColor(20, 20, 20, 255);
             colors[ImGuiCol_FrameBgHovered] = ImColor(15, 40, 15, 255);
@@ -42,12 +43,27 @@ namespace menu
 
 	void gui::render()//bug, discord overlay appears on loader, menu only crashes on reinject if gui was displayed previously, look into me, reproducible, find out what isnt clearing properly
 	{
-        //if (!menu_open)
-        //    return;
-		handle_input();
-		ImGui::SetNextWindowPos(ImVec2(0, 0));
-		ImGui::SetNextWindowSize(ImVec2(805, 366));
-		ImGui::Begin("PhasMenu", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoTitleBar);
+        handle_input();
+        ImGui::SetNextWindowPos(ImVec2(0, 0));
+        const HMONITOR monitor = MonitorFromWindow(g_renderer.gui_hwnd, MONITOR_DEFAULTTONEAREST);
+        MONITORINFO info = {};
+        info.cbSize = sizeof(MONITORINFO);
+        GetMonitorInfo(monitor, &info);
+        auto s = ImVec2(info.rcMonitor.right - info.rcMonitor.left, info.rcMonitor.bottom - info.rcMonitor.top);
+
+        ImGui::SetNextWindowSize(s);
+        ImGui::Begin("OVERLAY", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoInputs);//make non clickable also!
+        ImGui::Text("overlay tester");
+        ImGui::GetWindowDrawList()->AddCircle(ImVec2(s.x / 2, s.y / 2), 10, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));//crosshair test
+        ImGui::GetWindowDrawList()->AddCircle(ImVec2(s.x / 2, s.y / 2), 5, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));
+        ImGui::End();
+
+        if (!menu_open)
+            return;
+
+		ImGui::Begin("PhasMenu", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus);
+        
+        ImGui::SetWindowFocus();
         ImGui::Text("PhasMenu Dev Staging");
 		ImGui::Separator();
         ImGui::BeginChild("side_bar", ImVec2(50, 350));//side bar
@@ -62,15 +78,16 @@ namespace menu
             g_il2cpp.dump_to_file(g_file_manager.get_base_dir() / "sdk_dump.hpp");
         if (ImGui::Button("Test Log"))
             LOG(INFO) << "TEST";
-        ImGui::Checkbox("Speed", &g.self.fast_sprint);
-        ImGui::Text(std::format("ALPHA {}", ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w).c_str());
+        if (ImGui::Button("Test Notification"))
+            notify::dx("DEBUG", "Test notification.", ImGuiToastType_Info);
 
+        ImGui::Text(std::format("ALPHA {}", ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w).c_str());
         ImGui::SameLine();
-        ImGui::SliderFloat("Value", &g.self.fast_sprint_value, .1, 5);
+        ImGui::SliderFloat("Value", &(ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w), .1, 1);
         try
         {
             g_gui_util->checkbox("Infinite Sprint");
-            g_gui_util->checkboxslider("Movement Speed", ".", 0, 10);
+            g_gui_util->checkboxslider("Movement Speed", "", 0, 10);
         }
         catch (std::exception e)
         {
@@ -82,13 +99,19 @@ namespace menu
 
 	void gui::handle_input()
 	{
+        HWND main_hwnd = FindWindowA(NULL, "PhasMenu");
+        HWND overlay_hwnd = FindWindowA(NULL, "OVERLAY");
         if (GetAsyncKeyState(VK_INSERT) & 1)
         {
             if (!menu_open)
-				SetForegroundWindow(g_renderer.gui_hwnd);
+				SetForegroundWindow(main_hwnd);
             else
                 SetForegroundWindow(FindWindowA(NULL, "Phasmophobia"));
             menu_open = !menu_open;
         }
+        //handle overlay shit
+        SetWindowLong(main_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TOOLWINDOW);//not clickable, dont show in alttab
+        SetWindowLong(overlay_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);//not clickable, dont show in alttab
+        SetWindowPos(overlay_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);//set to top
 	}
 }
