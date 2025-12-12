@@ -8,7 +8,7 @@ namespace menu
 	{
         ImVec4* colors = ImGui::GetStyle().Colors;
         {
-            colors[ImGuiCol_WindowBg] = ImVec4(0.03f, 0.03f, 0.03f, 0.50f);
+            colors[ImGuiCol_WindowBg] = ImVec4(0.03f, 0.03f, 0.03f, 0.10f);
             colors[ImGuiCol_ChildBg] = ImVec4(0.05f, 0.05f, 0.05f, 1.00f);
             colors[ImGuiCol_Border] = ImVec4(0.10f, 0.30f, 0.10f, 1.00f);
 
@@ -42,6 +42,8 @@ namespace menu
 
 	void gui::render()//bug, discord overlay appears on loader, menu only crashes on reinject if gui was displayed previously, look into me, reproducible, find out what isnt clearing properly
 	{
+        //if (!menu_open)
+        //    return;
 		handle_input();
 		ImGui::SetNextWindowPos(ImVec2(0, 0));
 		ImGui::SetNextWindowSize(ImVec2(805, 366));
@@ -61,6 +63,8 @@ namespace menu
         if (ImGui::Button("Test Log"))
             LOG(INFO) << "TEST";
         ImGui::Checkbox("Speed", &g.self.fast_sprint);
+        ImGui::Text(std::format("ALPHA {}", ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w).c_str());
+
         ImGui::SameLine();
         ImGui::SliderFloat("Value", &g.self.fast_sprint_value, .1, 5);
         try

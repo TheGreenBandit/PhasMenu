@@ -14,15 +14,15 @@ namespace menu
         m_running = true;
         g_thread_pool->push([this]
             {
-                m_wnd_class = { sizeof(WNDCLASSEXW), CS_CLASSDC, wnd_proc, 0L, 0L, GetModuleHandleW(NULL), NULL, NULL, NULL, NULL, L"PhasMenu", NULL };
+                m_wnd_class = { sizeof(m_wnd_class), CS_CLASSDC, wnd_proc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"PhasMenu", nullptr };
                 RegisterClassExW(&m_wnd_class);
 
-                gui_hwnd = ::CreateWindowExW(WS_EX_TOPMOST, m_wnd_class.lpszClassName, L"PhasMenu", WS_POPUP, 0, 0, 805, 366, NULL, NULL, m_wnd_class.hInstance, NULL);
+                gui_hwnd = ::CreateWindowW(m_wnd_class.lpszClassName, L"PhasMenu", WS_POPUPWINDOW, 0, 0, 50, 50, NULL, NULL, m_wnd_class.hInstance, NULL);
 
                 if (!create_device(gui_hwnd))
                     destroy();
 
-                ShowWindow(gui_hwnd, SW_SHOW);
+                ShowWindow(gui_hwnd, SW_HIDE);
                 UpdateWindow(gui_hwnd);
 
                 ImGui_ImplWin32_EnableDpiAwareness();
@@ -30,8 +30,16 @@ namespace menu
                 IMGUI_CHECKVERSION();
                 ImGui::CreateContext();
                 ImGuiIO& io = ImGui::GetIO(); (void)io;
+                io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+                io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
+                
+                io.ConfigFlags |= ImGuiConfigFlags_ViewportsEnable;//enable multiviewports
 
                 ImGui::StyleColorsDark();
+                ImGuiStyle& style = ImGui::GetStyle();
+
+                ImGui_ImplWin32_Init(gui_hwnd);
+                ImGui_ImplDX11_Init(m_d3d_device, m_d3d_device_context);
 
                 std::filesystem::path w = std::getenv("SYSTEMROOT");
                 std::filesystem::path windows_fonts = w.string() + "//Fonts";
@@ -62,9 +70,6 @@ namespace menu
                     io.Fonts->Build();
                 }
 
-                ImGui_ImplWin32_Init(gui_hwnd);
-                ImGui_ImplDX11_Init(m_d3d_device, m_d3d_device_context);
-
                 g_gui.init();
                 while (m_running)
                 {
@@ -81,7 +86,6 @@ namespace menu
 
 	void renderer::loop()
 	{
-		ShowWindow(gui_hwnd, g_gui.menu_open ? SW_SHOW : SW_HIDE);
         MSG msg;
         while (::PeekMessage(&msg, nullptr, 0U, 0U, PM_REMOVE))
         {
@@ -102,7 +106,7 @@ namespace menu
             m_resize_width = m_resize_height = 0;
             create_render_target();
         }
-
+        ImVec4 clear_color = ImVec4(0.45f, 0.55f, 0.60f, 0.50f);
         ImGui_ImplDX11_NewFrame();
         ImGui_ImplWin32_NewFrame();
         ImGui::NewFrame();
@@ -110,11 +114,16 @@ namespace menu
         handle_window_movement();
         ImGui::EndFrame();
         ImGui::Render();
-
+        const float clear_color_with_alpha[4] = { clear_color.x * clear_color.w, clear_color.y * clear_color.w, clear_color.z * clear_color.w, clear_color.w };
         m_d3d_device_context->OMSetRenderTargets(1, &m_main_render_target_view, nullptr);
-        float clear_color[4] = { 0.0f, 0.0f, 0.0f, 0.0f };
-        m_d3d_device_context->ClearRenderTargetView(m_main_render_target_view, clear_color);
+        m_d3d_device_context->ClearRenderTargetView(m_main_render_target_view, clear_color_with_alpha);
         ImGui_ImplDX11_RenderDrawData(ImGui::GetDrawData());
+        auto io = ImGui::GetIO();
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)//THIS IS REQUIRED TO NOT HAVE THE ACTUAL WINDOW BG!!!!!
+        {
+            ImGui::UpdatePlatformWindows();
+            ImGui::RenderPlatformWindowsDefault();
+        }
 
         HRESULT hr = m_swapchain->Present(1, 0);
         m_swapchain_occluded = (hr == DXGI_STATUS_OCCLUDED);
@@ -169,7 +178,12 @@ namespace menu
         case WM_DESTROY:
             ::PostQuitMessage(0);
             return 0;
-        default:
+        case WM_MOUSEMOVE: //make window move
+            if (ImGui::IsAnyItemActive())
+                break;
+            int x = LOWORD(lParam);
+            int y = HIWORD(lParam);
+            MoveWindow(hWnd, x, y, 200, 200, TRUE);
             break;
         }
         return ::DefWindowProcW(hWnd, msg, wParam, lParam);
@@ -192,7 +206,7 @@ namespace menu
         sd.SampleDesc.Quality = 0;
         sd.Windowed = TRUE;
 
-        sd.SwapEffect = DXGI_SWAP_EFFECT_FLIP_DISCARD;
+        sd.SwapEffect = DXGI_SWAP_EFFECT_DISCARD;
 
         UINT createDeviceFlags = 0;
         //createDeviceFlags |= D3D11_CREATE_DEVICE_DEBUG;
@@ -218,16 +232,10 @@ namespace menu
 
     void renderer::create_render_target()
     {
-        ID3D11Texture2D* pBackBuffer = nullptr;
-        if (m_swapchain)
-        {
-            if (SUCCEEDED(m_swapchain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer))))
-            {
-                if (m_main_render_target_view) { m_main_render_target_view->Release(); m_main_render_target_view = nullptr; }
-                m_d3d_device->CreateRenderTargetView(pBackBuffer, nullptr, &m_main_render_target_view);
-                pBackBuffer->Release();
-            }
-        }
+        ID3D11Texture2D* pBackBuffer;
+        m_swapchain->GetBuffer(0, IID_PPV_ARGS(&pBackBuffer));
+        m_d3d_device->CreateRenderTargetView(pBackBuffer, nullptr, &m_main_render_target_view);
+        pBackBuffer->Release();
     }
 
     void renderer::cleanup_render_target()

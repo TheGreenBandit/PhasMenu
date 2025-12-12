@@ -15,7 +15,6 @@ namespace menu
 				auto ps_ = lp->Fields.PlayerStamina;
 				ps_->Fields.CurrentStamina = 10;
 				ps_->Fields.StaminaDrained = false;
-				//lp->Fields.MovementSpeed
 			}
 		}
 	};
