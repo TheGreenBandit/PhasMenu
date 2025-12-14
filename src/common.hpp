@@ -41,6 +41,8 @@ namespace menu
 
 	namespace game
 	{
-		static sdk::Network* network;
+		inline sdk::Network* network;
+		inline sdk::GhostAI* ghost;
+
 	}
 }

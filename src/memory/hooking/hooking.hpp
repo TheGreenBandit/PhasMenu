@@ -7,6 +7,8 @@
 #include "game/sdk.hpp"
 #include <MinHook.h>
 #include "memory/pointers.hpp"
+#include "game/exit_level.hpp"
+#include "game/ghost_ai.hpp"
 
 namespace menu
 {
@@ -25,10 +27,10 @@ namespace menu
 
 	struct hooks
 	{
-		static void PlayerStamina_Update(sdk::PlayerStamina* ps, method_info* mi);//todo make these follow proper formatting
-		static void FirstPersonController_Update(sdk::FirstPersonController* fpc, method_info* mi);
 		static sdk::Network* network_getnetwork(method_info* mi);
-		//static void ghostai_start(sdk::GhostAI* gai, method_info* mi);
+		static void ghostai_update(sdk::GhostAI* gai, method_info* mi);
+		static void exitlevel_exit(sdk::ExitLevel* el, void* photonMessageInfo, method_info* methodInfo);
+		static void firstpersoncontroller_update(sdk::FirstPersonController* fpc, method_info* mi);
 	};
 
 	class hooking

@@ -9,7 +9,7 @@ namespace menu
 
 		virtual void on_tick() override
 		{
-			auto net = g_game_util->get_network();//must be in each individual loop, maybe make tick have the network argument?
+			auto net = game::network;
 			{
 				auto lp = net->Fields.LocalPlayer;
 				auto ps_ = lp->Fields.PlayerStamina;

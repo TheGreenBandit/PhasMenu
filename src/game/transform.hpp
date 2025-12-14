@@ -2,14 +2,35 @@
 #include "sdk.hpp"
 #include "vector3.hpp"
 #include "transform.hpp"
+#include "matrix.hpp"
+#include "quaternion.hpp"
 
 namespace menu::sdk
 {
 	struct Transform
 	{
+		int* childCount;
+		Vector3* eulerAngles;
+		Vector3* foward;
+		bool* hasChanged;
+		int* hieracrchyCapacity;
+		Vector3* localEulerAngles;
+		Vector3* localPosition;
+		Vector3* localRotation;
+		Vector3* localScale;
+		Matrix4x4* localToWorldMatric;
+		Vector3* lossyScale;
+		Transform* parent;
+		Transform* parentInternal;
+		Vector3* position;
+		Vector3* right;
+		Transform* root;
+		Quaternion* rotation;
+		Vector3* up;
+		Matrix4x4* worlToLocalMatrix;
 	};
 
-	DECLARE_POINTER(Transform_Get_Position, Vector3(*)(Transform* transform, method_info* methodInfo), "UnityEngine.CoreModule", "UnityEngine", "Transform", "get_position",
+	DECLARE_POINTER(Transform_Get_Position, Vector3(*)(Transform* transform, method_info* mi), "UnityEngine.CoreModule", "UnityEngine", "Transform", "get_position",
 		0)
 
 	DECLARE_POINTER(Transform_Set_Position, void(*)(Transform* transform, Vector3 position, method_info* methodInfo), "UnityEngine.CoreModule", "UnityEngine", "Transform",

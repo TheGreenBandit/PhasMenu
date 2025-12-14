@@ -6,21 +6,18 @@ namespace menu
 	class movement_speed : toggle_feature
 	{
 		using toggle_feature::toggle_feature;
-
+		sdk::FirstPersonController* fpc;
 		virtual void on_tick() override
 		{
-			auto net = g_game_util->get_network();
-			auto fpc_ = net->Fields.LocalPlayer->Fields.FirstPersonController;
-			fpc_->Fields.CurrentSpeed = ((!fpc_->Fields.CanSprint || !fpc_->Fields.IsSprinting) ? 1.6 * value() : 3.0 * value());
-			fpc_->Fields.UseHeadBob = false;
+			fpc = game::network->Fields.LocalPlayer->Fields.FirstPersonController;
+			fpc->Fields.CurrentSpeed = ((!fpc->Fields.CanSprint || !fpc->Fields.IsSprinting) ? 1.6 * value() : 3.0 * value());
+			fpc->Fields.UseHeadBob = false;
 		}
 
 		virtual void on_disable() override
 		{
-			auto net = g_game_util->get_network();
-			auto fpc_ = net->Fields.LocalPlayer->Fields.FirstPersonController;
-			fpc_->Fields.CurrentSpeed = 1.6;
-			fpc_->Fields.UseHeadBob = true;
+			fpc->Fields.CurrentSpeed = 1.6;
+			fpc->Fields.UseHeadBob = true;
 		}
 	};
 	movement_speed g_movement_speed("Movement Speed", "Override your speed to whatever you want.");

@@ -43,7 +43,8 @@ namespace menu
 		virtual void on_tick() {};
 		virtual void on_enable() {};
 		virtual void on_disable() {};
-		virtual void on_gui() {};
+		virtual void on_gui() {};//main gui render
+		virtual void on_overlay() {};//overlay render
 
 		inline bool& is_enabled()
 		{

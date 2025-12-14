@@ -27,16 +27,6 @@ namespace menu
 
 	void feature_manager::loop()//test
 	{
-		for (auto feature : g_toggle_features)
-		{
-			if (feature->last_state() != feature->is_enabled())
-			{
-				feature->last_state() ? feature->on_disable() : feature->on_enable();
-				feature->last_state() = feature->is_enabled();
-			}
 
-			if (feature->is_enabled())
-				feature->on_tick();
-		}
 	}
 }

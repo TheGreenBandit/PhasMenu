@@ -8,5 +8,8 @@
 #include "player_sanity.hpp"
 #include "first_person_controller.hpp"
 #include "network.hpp"
+#include "ghost_ai.hpp"
+#include "string.hpp"
+#include "component.hpp"
 //#include "vector2.h"
 //#include "transform.hpp"

@@ -19,7 +19,6 @@ namespace menu
                 RegisterClassExW(&m_wnd_class);
 
                 gui_hwnd = ::CreateWindowExW(WS_EX_TOPMOST | WS_EX_TRANSPARENT, m_wnd_class.lpszClassName, L"PhasMenu", WS_POPUPWINDOW, 0, 0, 50, 50, NULL, NULL, m_wnd_class.hInstance, NULL);
-                SetLayeredWindowAttributes(gui_hwnd, RGB(0, 0, 0), 255, LWA_ALPHA);
                 if (!create_device(gui_hwnd))
                     destroy();
                 

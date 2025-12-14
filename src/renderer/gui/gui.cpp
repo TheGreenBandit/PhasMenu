@@ -56,6 +56,11 @@ namespace menu
         ImGui::Text("overlay tester");
         ImGui::GetWindowDrawList()->AddCircle(ImVec2(s.x / 2, s.y / 2), 10, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));//crosshair test
         ImGui::GetWindowDrawList()->AddCircle(ImVec2(s.x / 2, s.y / 2), 5, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));
+        for (auto feature : g_toggle_features)
+        {
+            if (feature->is_enabled())
+                feature->on_overlay();
+        }
         ImGui::End();
 
         if (!menu_open)
@@ -86,6 +91,7 @@ namespace menu
         ImGui::SliderFloat("Value", &(ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w), .1, 1);
         try
         {
+            g_gui_util->checkbox("Ghost ESP");
             g_gui_util->checkbox("Infinite Sprint");
             g_gui_util->checkboxslider("Movement Speed", "", 0, 10);
         }
@@ -110,7 +116,11 @@ namespace menu
             menu_open = !menu_open;
         }
         //handle overlay shit
-        SetWindowLong(main_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TOOLWINDOW);//not clickable, dont show in alttab
+        if (menu_open)
+        {
+            SetWindowLong(main_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TOOLWINDOW);//not clickable, dont show in alttab
+            SetWindowPos(main_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);//keep focus
+        }
         SetWindowLong(overlay_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);//not clickable, dont show in alttab
         SetWindowPos(overlay_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);//set to top
 	}
