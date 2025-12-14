@@ -9,9 +9,12 @@ namespace menu
 		sdk::FirstPersonController* fpc;
 		virtual void on_tick() override
 		{
-			fpc = game::network->Fields.LocalPlayer->Fields.FirstPersonController;
-			fpc->Fields.CurrentSpeed = ((!fpc->Fields.CanSprint || !fpc->Fields.IsSprinting) ? 1.6 * value() : 3.0 * value());
-			fpc->Fields.UseHeadBob = false;
+			if (game::network != nullptr)
+			{
+				fpc = game::network->Fields.LocalPlayer->Fields.FirstPersonController;
+				fpc->Fields.CurrentSpeed = ((!fpc->Fields.CanSprint || !fpc->Fields.IsSprinting) ? 1.6 * value() : 3.0 * value());
+				fpc->Fields.UseHeadBob = false;
+			}
 		}
 
 		virtual void on_disable() override

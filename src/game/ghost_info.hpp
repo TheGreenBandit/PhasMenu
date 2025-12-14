@@ -1,5 +1,6 @@
 #pragma once
 #include "sdk.hpp"
+#include "ghost_traits.hpp"
 
 namespace menu::sdk
 {
@@ -9,7 +10,7 @@ namespace menu::sdk
 	struct GhostInfoFields
 	{
 		MonoBehaviourPunFields MonoBehaviourPunFields; // MonoBehaviourPun derived class field
-		/*GhostTraits */ void* GhostTraits;//use for getting name n stuff
+		GhostTraits GhostTraits;//use for getting name n stuff
 		GhostAI* Ghost;
 		LevelRoom* FavouriteRoom;
 		float ActivityMultiplier;

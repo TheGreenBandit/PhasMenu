@@ -9,9 +9,9 @@ namespace menu
 
 		virtual void on_tick() override
 		{
-			auto net = game::network;
+			if (game::network != nullptr)
 			{
-				auto lp = net->Fields.LocalPlayer;
+				auto lp = game::network->Fields.LocalPlayer;
 				auto ps_ = lp->Fields.PlayerStamina;
 				ps_->Fields.CurrentStamina = 10;
 				ps_->Fields.StaminaDrained = false;

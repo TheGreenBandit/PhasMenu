@@ -37,7 +37,7 @@ namespace menu::feature
 		for (toggle_feature* feature : g_toggle_features)
 		{
 			if (feature->label().compare(label.data()) == 0)
-				return static_cast<T*>(feature);
+				return reinterpret_cast<T*>(feature);
 			else continue;
 		}
 	}

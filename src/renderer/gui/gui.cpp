@@ -2,6 +2,7 @@
 #include "renderer/renderer.hpp"
 #include "util/gui_util.hpp"
 #include "util/notify.hpp"
+#include "features/all.hpp"
 
 namespace menu
 {
@@ -92,6 +93,8 @@ namespace menu
         try
         {
             g_gui_util->checkbox("Ghost ESP");
+            ImGui::Checkbox("Box ESP", &feature::get_feature_from_label_type_specific<ghost_esp>("Ghost ESP")->box_esp);
+
             g_gui_util->checkbox("Infinite Sprint");
             g_gui_util->checkboxslider("Movement Speed", "", 0, 10);
         }

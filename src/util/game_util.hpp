@@ -2,6 +2,15 @@
 
 #include "common.hpp"
 
+#define S(s)                                           \
+    ([&]() -> std::string {                            \
+        if (!(s)) return {};                           \
+        const int32_t _len = (s)->Fields.StringLength; \
+        const auto _first = &(s)->Fields.FirstChar;\
+        std::wstring _wide(_first, _first + _len);     \
+        return std::string(_wide.begin(), _wide.end());\
+    })()
+
 namespace menu
 {
 	class game_util
@@ -60,6 +69,97 @@ namespace menu
 			ret.x = (ndcX * 0.5f + 0.5f) * screenWidth; ret.y = (1.0f - (ndcY * 0.5f + 0.5f)) * screenHeight;
 
 			return ret; 
+		}
+
+		std::string get_ghost_name(sdk::GhostType gt)//make this better
+		{
+			std::string type = "Unknown";
+
+			switch (gt)
+			{
+			case sdk::GhostType::Spirit:
+				type = "Spirit";
+				break;
+			case sdk::GhostType::Wraith:
+				type = "Wraith";
+				break;
+			case sdk::GhostType::Phantom:
+				type = "Phantom";
+				break;
+			case sdk::GhostType::Poltergeist:
+				type = "Poltergeist";
+				break;
+			case sdk::GhostType::Banshee:
+				type = "Banshee";
+				break;
+			case sdk::GhostType::Jinn:
+				type = "Jinn";
+				break;
+			case sdk::GhostType::Mare:
+				type = "Mare";
+				break;
+			case sdk::GhostType::Revenant:
+				type = "Revenant";
+				break;
+			case sdk::GhostType::Shade:
+				type = "Shade";
+				break;
+			case sdk::GhostType::Demon:
+				type = "Demon";
+				break;
+			case sdk::GhostType::Yurei:
+				type = "Yurei";
+				break;
+			case sdk::GhostType::Oni:
+				type = "Oni";
+				break;
+			case sdk::GhostType::Yokai:
+				type = "Yokai";
+				break;
+			case sdk::GhostType::Hantu:
+				type = "Hantu";
+				break;
+			case sdk::GhostType::Goryo:
+				type = "Goryo";
+				break;
+			case sdk::GhostType::Myling:
+				type = "Myling";
+				break;
+			case sdk::GhostType::Onryo:
+				type = "Onryo";
+				break;
+			case sdk::GhostType::TheTwins:
+				type = "The Twins";
+				break;
+			case sdk::GhostType::Raiju:
+				type = "Raiju";
+				break;
+			case sdk::GhostType::Obake:
+				type = "Obake";
+				break;
+			case sdk::GhostType::Mimic:
+				type = "Mimic";
+				break;
+			case sdk::GhostType::Moroi:
+				type = "Moroi";
+				break;
+			case sdk::GhostType::Deogen:
+				type = "Deogen";
+				break;
+			case sdk::GhostType::Thaye:
+				type = "Thaye";
+				break;
+			}
+
+			return type;
+		}
+
+		float get_distance_between_coords(sdk::Vector3 a, sdk::Vector3 b)
+		{
+			const float dx = a.X - b.X;
+			const float dy = a.Y - b.Y;
+			const float dz = a.Z - b.Z;
+			return std::sqrt(dx * dx + dy * dy + dz * dz);
 		}
 	};
 	inline auto g_game_util = new game_util();
