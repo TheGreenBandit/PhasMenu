@@ -7,7 +7,7 @@ namespace menu
 	{
 		//reset
 		LOG(INFO) << "GAME OVER, SETTING STATES TO NULLPTR";
-		game::ghost = nullptr;
+
 		return g_hooking->get_original<hooks::exitlevel_exit>()(el, photonMessageInfo, mi);
 	}
 }

@@ -28,7 +28,6 @@ namespace menu
 	struct hooks
 	{
 		static sdk::Network* network_getnetwork(method_info* mi);
-		static void ghostai_update(sdk::GhostAI* gai, method_info* mi);
 		static void exitlevel_exit(sdk::ExitLevel* el, void* photonMessageInfo, method_info* methodInfo);
 		static void firstpersoncontroller_update(sdk::FirstPersonController* fpc, method_info* mi);
 	};

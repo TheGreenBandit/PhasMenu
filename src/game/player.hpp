@@ -1,5 +1,6 @@
 #pragma once
 #include "sdk.hpp"
+#include "player_stats.hpp"
 
 namespace menu::sdk
 {
@@ -34,7 +35,7 @@ namespace menu::sdk
 		void* DeadBodyPrefab; // GameObject
 		void* DeadPlayer; // DeadPlayer
 		PlayerSanity* PlayerSanity; // PlayerSanity
-		void* PlayerStats; // PlayerStats
+		PlayerStats* PlayerStats; // PlayerStats
 		void* FootstepController; // FootstepController
 		void* JournalController; // JournalController
 		void* AllRends; // Renderer[]

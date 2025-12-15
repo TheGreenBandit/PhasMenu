@@ -1,9 +1,11 @@
+#pragma once
+
 #include "features/feature_manager.hpp"
 #include "util/game_util.hpp"
 
 namespace menu
 {
-	class infinite_sprint : toggle_feature
+	struct infinite_sprint : toggle_feature
 	{
 		using toggle_feature::toggle_feature;
 
@@ -18,5 +20,5 @@ namespace menu
 			}
 		}
 	};
-	infinite_sprint g_infinite_sprint("Infinite Sprint", "Prevents your stamina from draining while sprinting.");
+	inline infinite_sprint* g_infinite_sprint = new infinite_sprint("Infinite Sprint", "Prevents your stamina from draining while sprinting.");
 }

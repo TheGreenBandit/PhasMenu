@@ -19,7 +19,6 @@ namespace menu
 				detour_hook_helper->m_detour_hook->set_target_and_create_hook(detour_hook_helper->m_on_hooking_available());
 
 			detour_hook_helper::add<hooks::network_getnetwork>("NGN", (void*)sdk::Network_Get_Network_ptr);
-			detour_hook_helper::add<hooks::ghostai_update>("GAIU", (void*)sdk::GhostAI_Update_ptr);
 			detour_hook_helper::add<hooks::exitlevel_exit>("ELE", (void*)sdk::ExitLevel_Exit_ptr);
 			detour_hook_helper::add<hooks::firstpersoncontroller_update>("FPCU", (void*)sdk::FirstPersonController_Update_ptr);
 		}

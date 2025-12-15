@@ -2,6 +2,7 @@
 
 #include <imgui.h>
 #include "feature.hpp"
+#include "renderer/renderer.hpp"
 
 namespace menu
 {
@@ -45,6 +46,15 @@ namespace menu
 			
 			if (ImGui::IsItemHovered() && feature->description() != "")
 				ImGui::SetTooltip(feature->description().c_str());
+		}
+
+		ImVec2 get_screen_size()
+		{
+			const HMONITOR monitor = MonitorFromWindow(g_renderer.gui_hwnd, MONITOR_DEFAULTTONEAREST);
+			MONITORINFO info = {};
+			info.cbSize = sizeof(MONITORINFO);
+			GetMonitorInfo(monitor, &info);
+			return ImVec2(info.rcMonitor.right - info.rcMonitor.left, info.rcMonitor.bottom - info.rcMonitor.top);
 		}
 	};
 	inline auto g_gui_util = new gui_util();

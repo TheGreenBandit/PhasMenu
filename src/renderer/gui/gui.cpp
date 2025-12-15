@@ -42,21 +42,24 @@ namespace menu
         }
 	}
 
-	void gui::render()//bug, discord overlay appears on loader, menu only crashes on reinject if gui was displayed previously, look into me, reproducible, find out what isnt clearing properly
+	void gui::render()//bug, discord overlay appears on gui
 	{
         handle_input();
         ImGui::SetNextWindowPos(ImVec2(0, 0));
-        const HMONITOR monitor = MonitorFromWindow(g_renderer.gui_hwnd, MONITOR_DEFAULTTONEAREST);
-        MONITORINFO info = {};
-        info.cbSize = sizeof(MONITORINFO);
-        GetMonitorInfo(monitor, &info);
-        auto s = ImVec2(info.rcMonitor.right - info.rcMonitor.left, info.rcMonitor.bottom - info.rcMonitor.top);
+        ImVec2 screen = g_gui_util->get_screen_size();
+        ImGui::SetNextWindowSize(screen);
+        ImGui::PushStyleVar(ImGuiStyleVar_ItemSpacing, ImVec2(5, 0));
+        ImGui::Begin("OVERLAY", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoInputs);
+        
+        ImGui::PushFont(NULL, 35);
+        ImGui::TextColored(ImVec4(1, .5, 0, 1), "Phas");
+        ImGui::SameLine();
+        ImGui::Text("Menu");
+        ImGui::PopFont();
 
-        ImGui::SetNextWindowSize(s);
-        ImGui::Begin("OVERLAY", nullptr, ImGuiWindowFlags_NoBackground | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize | ImGuiWindowFlags_NoInputs);//make non clickable also!
-        ImGui::Text("overlay tester");
-        ImGui::GetWindowDrawList()->AddCircle(ImVec2(s.x / 2, s.y / 2), 10, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));//crosshair test
-        ImGui::GetWindowDrawList()->AddCircle(ImVec2(s.x / 2, s.y / 2), 5, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));
+        ImGui::PopStyleVar();
+        ImGui::GetWindowDrawList()->AddCircle(ImVec2(screen.x / 2, screen.y / 2), 10, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));//crosshair test
+        ImGui::GetWindowDrawList()->AddCircle(ImVec2(screen.x / 2, screen.y / 2), 5, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));
         for (auto feature : g_toggle_features)
         {
             if (feature->is_enabled())
@@ -92,9 +95,21 @@ namespace menu
         ImGui::SliderFloat("Value", &(ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w), .1, 1);
         try
         {
-            g_gui_util->checkbox("Ghost ESP");
-            ImGui::Checkbox("Box ESP", &feature::get_feature_from_label_type_specific<ghost_esp>("Ghost ESP")->box_esp);
+            //Fusebox ESP
+            g_gui_util->checkbox("Fusebox ESP");
+            ImGui::SameLine();
+            ImGui::PushItemWidth(50);
+            ImGui::ColorPicker4("Fusebox Color", feature::get_feature_from_label_type_specific<fuse_box_esp>("Fusebox ESP")->color_esp, ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoInputs);
 
+            ImGui::Checkbox("FuseboxLine ESP", &feature::get_feature_from_label_type_specific<fuse_box_esp>("Fusebox ESP")->line_esp);
+
+            g_gui_util->checkbox("Ghost ESP");
+            ImGui::SameLine();
+            ImGui::PushItemWidth(50);
+            ImGui::ColorPicker4("ESP Color", feature::get_feature_from_label_type_specific<ghost_esp>("Ghost ESP")->color_esp, ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoInputs);
+
+            ImGui::Checkbox("Box ESP", &feature::get_feature_from_label_type_specific<ghost_esp>("Ghost ESP")->box_esp);
+            ImGui::Checkbox("Line ESP", &feature::get_feature_from_label_type_specific<ghost_esp>("Ghost ESP")->line_esp);
             g_gui_util->checkbox("Infinite Sprint");
             g_gui_util->checkboxslider("Movement Speed", "", 0, 10);
         }
@@ -121,7 +136,7 @@ namespace menu
         //handle overlay shit
         if (menu_open)
         {
-            SetWindowLong(main_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TOOLWINDOW);//not clickable, dont show in alttab
+            SetWindowLong(main_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TOOLWINDOW);//dont show in alttab
             SetWindowPos(main_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);//keep focus
         }
         SetWindowLong(overlay_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);//not clickable, dont show in alttab

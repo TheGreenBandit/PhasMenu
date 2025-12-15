@@ -1,6 +1,7 @@
 #pragma once
 
 #include "common.hpp"
+#include "gui_util.hpp"
 
 #define S(s)                                           \
     ([&]() -> std::string {                            \
@@ -30,18 +31,14 @@ namespace menu
 
 		ImVec2 world_to_screen(const sdk::Vector3 vWorldPosition) 
 		{
-			static ImVec2 ret = ImVec2(0, 0);
-			RECT rect;
-			const HWND hGame = FindWindowA(nullptr, "Phasmophobia");
-			GetWindowRect(hGame, &rect);
-			const auto screenHeight = rect.bottom - rect.top;
-			const auto screenWidth = rect.right;
-			const auto camera = get_network()->Fields.LocalPlayer->Fields.Camera;
+			static ImVec2 ret = ImVec2(-1, -1);
+			ImVec2 screen = g_gui_util->get_screen_size();
+			auto camera = get_network()->Fields.LocalPlayer->Fields.Camera;
 			if (camera == nullptr) 
-			return ImVec2(-1, -1);
-			const auto cameraTransform = sdk::Component_Get_Transform_ptr(reinterpret_cast<sdk::Component*>(camera), nullptr);
-			const auto cameraPos = sdk::Transform_Get_Position_ptr(cameraTransform, nullptr); 
-			const auto cameraForward = sdk::Transform_Get_Forward_ptr(cameraTransform, nullptr);
+				return ImVec2(-1, -1);
+			sdk::Transform* cameraTransform = sdk::Component_Get_Transform_ptr(reinterpret_cast<sdk::Component*>(camera), nullptr);
+			sdk::Vector3 cameraPos = sdk::Transform_Get_Position_ptr(cameraTransform, nullptr);
+			sdk::Vector3 cameraForward = sdk::Transform_Get_Forward_ptr(cameraTransform, nullptr);
 			sdk::Vector3 direction;
 			direction.X = vWorldPosition.X - cameraPos.X;
 			direction.Y = vWorldPosition.Y - cameraPos.Y;
@@ -66,7 +63,7 @@ namespace menu
 			float ndcY = clipY / clipW; 
 			float ndcZ = clipZ / clipW; 
 
-			ret.x = (ndcX * 0.5f + 0.5f) * screenWidth; ret.y = (1.0f - (ndcY * 0.5f + 0.5f)) * screenHeight;
+			ret.x = (ndcX * 0.5f + 0.5f) * screen.x; ret.y = (1.0f - (ndcY * 0.5f + 0.5f)) * screen.y;
 
 			return ret; 
 		}

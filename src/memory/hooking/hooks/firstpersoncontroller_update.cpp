@@ -6,6 +6,9 @@ namespace menu
 {
 	void hooks::firstpersoncontroller_update(sdk::FirstPersonController* fpc, method_info* mi)
 	{
+		if (g_game_util->get_network() == nullptr)
+			return g_hooking->get_original<hooks::firstpersoncontroller_update>()(fpc, mi);
+
 		for (auto feature : g_toggle_features)
 		{
 			if (feature->last_state() != feature->is_enabled())
