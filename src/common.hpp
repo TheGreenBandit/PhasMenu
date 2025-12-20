@@ -27,6 +27,9 @@
 #include "renderer/fonts/font_awesome_5.h"
 #include "game/sdk.hpp"
 #include "services/notification_service/notification_service.hpp"
+#include "util/logger/logger.hpp"
+
+#define RELEASE "V1.00 ALPHA"
 
 namespace menu
 {

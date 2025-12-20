@@ -12,13 +12,11 @@ namespace menu
 		m_running = true;
 		g_thread_pool->push([this] 
 		{
-			LOG(INFO) << "PUSHING FEATURE MANAGER LOOP " << std::this_thread::get_id();
 			while (m_running)
 			{
 				loop();
 				std::this_thread::sleep_for(10ms);
 			}
-			LOG(INFO) << "CLEARING FEATURE MANAGER LOOP " << std::this_thread::get_id();
 		});
 	}
 

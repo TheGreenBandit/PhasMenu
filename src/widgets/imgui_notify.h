@@ -8,6 +8,10 @@
 #pragma warning(push)
 #pragma warning(disable : 4172)
 
+///
+#include "util/gui_util.hpp"
+///
+
 #include "fa_solid_900.h"
 #include "font_awesome_5.h"
 #include "imgui.h"
@@ -288,7 +292,7 @@ namespace ImGui
 	/// </summary>
 	NOTIFY_INLINE VOID RenderNotifications()
 	{
-		const auto vp_size = GetMainViewport()->Size;
+		const auto vp_size = menu::g_gui_util->get_screen_size();
 
 		float height = 0.f;
 

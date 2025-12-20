@@ -1,8 +1,5 @@
 #include "gui.hpp"
-#include "renderer/renderer.hpp"
-#include "util/gui_util.hpp"
-#include "util/notify.hpp"
-#include "features/all.hpp"
+#include "features/all.hpp"//needs to be included in a cpp file for the features to actually initialize
 
 namespace menu
 {
@@ -65,99 +62,69 @@ namespace menu
         ImGui::GetWindowDrawList()->AddCircle(ImVec2(screen.x / 2, screen.y / 2), 10, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));//crosshair test
         ImGui::GetWindowDrawList()->AddCircle(ImVec2(screen.x / 2, screen.y / 2), 5, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));
         
-        
-        //this works
-        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border2")->second->get_current_frame()->view, ImVec2(main_topleft.x, main_topleft.y + 8), ImVec2(main_topleft.x + 480, main_topleft.y));
-        
-        //border testing
-        //Top
-        static float speed = .2f;
+
         float wb = ImGui::GetStyle().WindowBorderSize;//fix me so it borders the window right, once fixed try removing it down to just 1 gif
         ImVec2 win_max = ImVec2(main_topleft.x + main_size.x, main_topleft.y + main_size.y);
-        if ((main_topleft != ImVec2(-1, -1)) && menu_open)
+        if ((main_topleft != ImVec2(-1, -1)) && m_menu_open && g.gui.rainbow_border)
         {
-            //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border1")->second->get_current_frame(0, speed)->view, ImVec2(main_topleft.x - wb, main_topleft.y), ImVec2(win_max.x + wb, main_topleft.y + wb));
+            //Top
+            ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border1")->second->get_current_frame(0, g.gui.rainbow_border_speed)->view, ImVec2(main_topleft.x - wb, main_topleft.y), ImVec2(win_max.x + wb, main_topleft.y + wb));
             //Bottom
-            //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border2")->second->get_current_frame(1, speed)->view, ImVec2(main_topleft.x - wb, win_max.y), ImVec2(win_max.x + wb, win_max.y + wb));
+            ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border2")->second->get_current_frame(1, g.gui.rainbow_border_speed)->view, ImVec2(main_topleft.x - wb, win_max.y), ImVec2(win_max.x + wb, win_max.y + wb));
             // Left
-            //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border3")->second->get_current_frame(2, speed)->view, ImVec2(main_topleft.x - wb, main_topleft.y), ImVec2(main_topleft.x, win_max.y));
+            ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border3")->second->get_current_frame(2, g.gui.rainbow_border_speed)->view, ImVec2(main_topleft.x - wb, main_topleft.y), ImVec2(main_topleft.x, win_max.y));
             // Right
-            //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border4")->second->get_current_frame(3, speed)->view, ImVec2(win_max.x, main_topleft.y), ImVec2(win_max.x + wb, win_max.y));
+            ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border4")->second->get_current_frame(3, g.gui.rainbow_border_speed)->view, ImVec2(win_max.x, main_topleft.y), ImVec2(win_max.x + wb, win_max.y));
         }
 
-        for (auto feature : g_toggle_features)
+        for (auto feature : g_toggle_features)//for esp n shit like that, or custom menus but we also have the popup menus for custom menus so
         {
             if (feature->is_enabled())
                 feature->on_overlay();
         }
         ImGui::End();
 
-        if (!menu_open)
+        if (!m_menu_open)
             return;
 
-		ImGui::Begin("PhasMenu", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus);
+		ImGui::Begin((std::string("PhasMenu") + RELEASE).c_str(), nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus);
         main_topleft = ImGui::GetWindowPos();
         main_size = ImGui::GetWindowSize();
-        //ImGui::SetWindowFocus();
-        ImGui::Text("PhasMenu Dev Staging");
+        ImGui::Text((std::string("PhasMenu") + RELEASE).c_str());
 		ImGui::Separator();
-        ImGui::BeginGroup();
-        
+
+        ImGui::BeginGroup();    
         ImGui::BeginChild("side_bar", ImVec2(50, main_size.y - ImGui::GetStyle().WindowPadding.y * 2));//side bar
-        ImGui::Button("H", ImVec2(50, 50));//home
-        ImGui::Button("S", ImVec2(50, 50));//self
-        ImGui::Button("V", ImVec2(50, 50));//visual
-        ImGui::Button(ICON_FA_COGS, ImVec2(50, 50));//settings
+        for (int i = 0; i <= SETTINGS; i++)
+        {
+            if (ImGui::Button(tab_to_icon((etab)i)))
+                m_selected_tab = (etab)i;
+        }
         ImGui::EndChild();
         ImGui::EndGroup();
+
         ImGui::SameLine();
+
         ImGui::BeginGroup();
-        ImGui::BeginChild("main_view", ImVec2(main_size.x - 50 - ImGui::GetStyle().WindowPadding.x * 2, main_size.y - ImGui::GetStyle().WindowPadding.y * 2));
-        if (ImGui::Button("DUMP TO FILE"))
-            g_il2cpp.dump_to_file(g_file_manager.get_base_dir() / "sdk_dump.hpp");
-        if (ImGui::Button("Test Log"))
-            LOG(INFO) << "TEST";
-        if (ImGui::Button("Test Notification"))
+        //ImGui::BeginChild("main_view", ImVec2(main_size.x - 50 - ImGui::GetStyle().WindowPadding.x * 2, main_size.y - ImGui::GetStyle().WindowPadding.y * 2));
+        try 
         {
-            g_notification_service->push("TEST NOTIFICATION!", "TEST MESSAGE");
-            notify::dx("DEBUG", "Test notification.", ImGuiToastType_Info);
-        }
-
-
-        ImGui::Text("ALPHA");
-        ImGui::SameLine();
-        ImGui::SliderFloat("## 1", &(ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w), .1, 1);
-        ImGui::Text("WINDOW BORDER");
-        ImGui::SameLine();
-        ImGui::SliderFloat("## 2", &ImGui::GetStyle().WindowBorderSize, 1, 50);
-        ImGui::Text("SPEED");
-        ImGui::SameLine();
-        ImGui::SliderFloat("## 3", &speed, .01, 1);
-        
-        try
-        {
-            g_gui_util->checkbox("Fusebox ESP");
-            g_gui_util->checkbox("Ghost ESP");
-
-            g_gui_util->checkbox("Infinite Sprint");
-            g_gui_util->checkboxslider("Movement Speed", "", 0, 10);
+            //g_gui_util->checkbox("Infinite Sprint");
+            switch (m_selected_tab)
+            {
+                case SELF: self_tab(); break;
+                case GHOST: ghost_tab(); break;
+                case VISUAL: visual_tab(); break;
+                case SETTINGS: settings_tab(); break;
+            }
         }
         catch (std::exception e)
         {
-            LOG(WARNING) << "GUI ERROR: " << e.what();
+            LOG(WARNING) << "ERROR IN GUI: " << e.what();
         }
-        ImGui::EndChild();
+
+        //ImGui::EndChild();
         ImGui::EndGroup();
-        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border")->second->get_current_frame()->view, ImVec2(tl.x, tl.y - 50), ImVec2(tl.x + size.x, tl.y + size.y + 50));
-        // Top
-        
-        // Bottom
-        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border2")->second->get_current_frame()->view, ImVec2(tl.x - wb, win_max.y), ImVec2(win_max.x + wb, win_max.y + wb));
-        // Left
-        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border3")->second->get_current_frame()->view, ImVec2(tl.x - wb, tl.y), ImVec2(tl.x, win_max.y));
-        // Right
-        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border4")->second->get_current_frame()->view, ImVec2(win_max.x, tl.y), ImVec2(win_max.x + wb, win_max.y));
-        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border1")->second->get_current_frame()->view, ImVec2(tl.x, tl.y), ImVec2(tl.x + size.x, tl.y + size.y));
         ImGui::End();
 
         for (toggle_feature* feature : g_toggle_features)
@@ -183,14 +150,14 @@ namespace menu
         HWND overlay_hwnd = FindWindowA(NULL, "OVERLAY");
         if (GetAsyncKeyState(VK_INSERT) & 1)
         {
-            if (!menu_open)
+            if (!m_menu_open)
 				SetForegroundWindow(main_hwnd);
             else
                 SetForegroundWindow(FindWindowA(NULL, "Phasmophobia"));
-            menu_open = !menu_open;
+            m_menu_open = !m_menu_open;
         }
         //handle overlay shit
-        if (menu_open)
+        if (m_menu_open)
         {
             SetWindowLong(main_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TOOLWINDOW);//dont show in alttab
             SetWindowPos(main_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);//keep focus
