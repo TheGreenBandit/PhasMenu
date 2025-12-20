@@ -4,17 +4,28 @@
 #include "gui/gui.hpp"
 #include "thread_pool.hpp"
 #include "widgets/imgui_notify.h"
-
+#define STB_IMAGE_IMPLEMENTATION
+#define STBI_ONLY_GIF
+#include "widgets/stb_image.h"
 extern IMGUI_IMPL_API LRESULT ImGui_ImplWin32_WndProcHandler(
     HWND hWnd, UINT msg, WPARAM wParam, LPARAM lParam);
 
 namespace menu
 {
+    void load_images()
+    {
+        g_renderer.load_gif_from_file(g_file_manager.get_base_dir() / "Resources" / "rainbow_border1.gif", "rainbow_border1", &g_renderer.gifs);
+        g_renderer.load_gif_from_file(g_file_manager.get_base_dir() / "Resources" / "rainbow_border2.gif", "rainbow_border2", &g_renderer.gifs);
+        g_renderer.load_gif_from_file(g_file_manager.get_base_dir() / "Resources" / "rainbow_border3.gif", "rainbow_border3", &g_renderer.gifs);
+        g_renderer.load_gif_from_file(g_file_manager.get_base_dir() / "Resources" / "rainbow_border4.gif", "rainbow_border4", &g_renderer.gifs);
+    }
+
     void renderer::init()
     {
         m_running = true;
         g_thread_pool->push([this]
             {
+                LOG(INFO) << "PUSHING RENDERER LOOP " << std::this_thread::get_id();
                 m_wnd_class = { sizeof(m_wnd_class), CS_CLASSDC, wnd_proc, 0L, 0L, GetModuleHandle(nullptr), nullptr, nullptr, nullptr, nullptr, L"PhasMenu", nullptr };
                 RegisterClassExW(&m_wnd_class);
 
@@ -71,6 +82,7 @@ namespace menu
                 ImGui_ImplDX11_Init(m_d3d_device, m_d3d_device_context);
                 ImGui_ImplWin32_EnableAlphaCompositing(gui_hwnd);
                 g_gui.init();
+                load_images();
                 while (m_running)
                 {
                     loop();
@@ -240,5 +252,119 @@ namespace menu
     void renderer::cleanup_render_target()
     {
         if (m_main_render_target_view) { m_main_render_target_view->Release(); m_main_render_target_view = nullptr; }
+    }
+
+
+    bool renderer::load_texture_from_file(std::filesystem::path path, image** image_)//todo js make it into a map
+    {
+        image* ret = new image();
+        ret->size[0] = 0;
+        ret->size[1] = 0;
+        ret->view = nullptr;
+
+        unsigned char* image_data = stbi_load(path.string().c_str(), &ret->size[0], &ret->size[1], NULL, 4);
+        if (image_data == NULL)
+        {
+            LOG(WARNING) << "FAILED TO LOAD IMAGE, CHECK IF IMAGE WAS DOWNLOADED SUCCESSFULLY.";
+            return false;
+        }
+        // Create texture 
+        D3D11_TEXTURE2D_DESC desc;
+        ZeroMemory(&desc, sizeof(desc));
+        desc.Width = ret->size[0];
+        desc.Height = ret->size[1];
+        desc.MipLevels = 1;
+        desc.ArraySize = 1;
+        desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        desc.SampleDesc.Count = 1;
+        desc.Usage = D3D11_USAGE_DEFAULT;
+        desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+        desc.CPUAccessFlags = 0;
+
+        ID3D11Texture2D* pTexture = NULL;
+        D3D11_SUBRESOURCE_DATA subResource;
+        subResource.pSysMem = image_data;
+        subResource.SysMemPitch = desc.Width * 4;
+        subResource.SysMemSlicePitch = 0;
+        m_d3d_device->CreateTexture2D(&desc, &subResource, &pTexture);
+
+        // Create texture view 
+        D3D11_SHADER_RESOURCE_VIEW_DESC srvDesc;
+        ZeroMemory(&srvDesc, sizeof(srvDesc));
+        srvDesc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+        srvDesc.ViewDimension = D3D11_SRV_DIMENSION_TEXTURE2D;
+        srvDesc.Texture2D.MipLevels = desc.MipLevels;
+        srvDesc.Texture2D.MostDetailedMip = 0;
+        m_d3d_device->CreateShaderResourceView(pTexture, &srvDesc, &ret->view);
+
+        pTexture->Release();
+        *image_ = ret;
+        stbi_image_free(image_data);
+        return true;
+    }
+
+    bool renderer::load_gif_from_file(std::filesystem::path path, std::string name, std::map<std::string, gif_image*>* gif_map)
+    {
+        std::ifstream file(path, std::ios::binary | std::ios::ate);
+        if (!file)
+            return false;
+
+        size_t size = file.tellg();
+        file.seekg(0);
+
+        std::vector<unsigned char> buffer(size);
+        file.read((char*)buffer.data(), size);
+
+        int* delays = nullptr;
+        int w, h, frames, comp;
+        unsigned char* data = stbi_load_gif_from_memory(buffer.data(), (int)buffer.size(), &delays, &w, &h, &frames, &comp, 4);
+
+        if (!data)
+            return false;
+
+        gif_image* gif = new gif_image();
+        gif->width = w;
+        gif->height = h;
+
+        for (int i = 0; i < frames; i++)
+        {
+            unsigned char* frame_pixels = data + (w * h * 4 * i);
+
+            D3D11_TEXTURE2D_DESC desc{};
+            desc.Width = w;
+            desc.Height = h;
+            desc.MipLevels = 1;
+            desc.ArraySize = 1;
+            desc.Format = DXGI_FORMAT_R8G8B8A8_UNORM;
+            desc.SampleDesc.Count = 1;
+            desc.Usage = D3D11_USAGE_DEFAULT;
+            desc.BindFlags = D3D11_BIND_SHADER_RESOURCE;
+
+            D3D11_SUBRESOURCE_DATA sub{};
+            sub.pSysMem = frame_pixels;
+            sub.SysMemPitch = w * 4;
+
+            ID3D11Texture2D* tex = nullptr;
+            if (m_d3d_device == nullptr)
+            {
+                LOG(INFO) << "BAD D3D DEVICE";
+                return false;
+            }
+            m_d3d_device->CreateTexture2D(&desc, &sub, &tex);
+
+            ID3D11ShaderResourceView* srv = nullptr;
+            m_d3d_device->CreateShaderResourceView(tex, nullptr, &srv);
+
+            tex->Release();
+
+            gif->frames.push_back(new gif_frame(srv, delays ? delays[i] : 100));
+        }
+
+        stbi_image_free(data);
+        if (delays) 
+            STBI_FREE(delays);
+
+        gif_map->emplace(name, gif);
+        return true;
     }
 }

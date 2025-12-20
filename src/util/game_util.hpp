@@ -29,6 +29,11 @@ namespace menu
 			return network;
 		}
 
+		bool is_game_started()
+		{
+			return game::network->Fields.LocalPlayer->Fields.PlayerStats->Fields.LevelController != nullptr;
+		}
+
 		ImVec2 world_to_screen(const sdk::Vector3 vWorldPosition) 
 		{
 			static ImVec2 ret = ImVec2(-1, -1);

@@ -3,7 +3,7 @@
 
 namespace menu
 {
-	enum class feature_flags : uint32_t
+	enum feature_flags : uint32_t
 	{
 		NONE = 0,
 		EXTRA_MENU
@@ -14,12 +14,13 @@ namespace menu
 	{
 		feature_flags m_flags = feature_flags::NONE;
 		bool m_toggle = false;
+		bool m_popup_open = false;
 		std::string m_label = "Default Null Feature";
 		std::string m_desc = "Default Null Feature";
 		int m_key = 0;
 		bool m_last_state = false;
 		float m_value = 0;
-	public:
+	public:																			//there has to be a better way to do this
 		toggle_feature(const std::string& label, const std::string& description, int key = -255): m_label(label), m_desc(description), m_key(key)
 		{
 			g_toggle_features.push_back(this);
@@ -43,7 +44,7 @@ namespace menu
 		virtual void on_tick() {};
 		virtual void on_enable() {};
 		virtual void on_disable() {};
-		virtual void on_gui() {};//main gui render
+		virtual void on_gui() {};//popup render
 		virtual void on_overlay() {};//overlay render
 
 		inline bool& is_enabled()
@@ -76,6 +77,11 @@ namespace menu
 			return m_value;
 		}	
 		
+		inline bool& popup_open()
+		{
+			return m_popup_open;
+		}
+
 		inline feature_flags& flags()
 		{
 			return m_flags;

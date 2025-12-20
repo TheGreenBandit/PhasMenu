@@ -17,12 +17,14 @@ namespace menu
 		//load();
 		g_thread_pool->push([this]
         {
+                LOG(INFO) << "PUSHING SETTINGS LOOP " << std::this_thread::get_id();
 			while (m_running)
 			{
 				std::this_thread::sleep_for(100ms);
 				//if (loaded)
 				//	save();
 			}
+            LOG(INFO) << "CLEARING FEATURE MANAGER LOOP " << std::this_thread::get_id();
 		});
 	}
 

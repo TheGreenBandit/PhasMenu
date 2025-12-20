@@ -26,6 +26,7 @@
 #include "util/il2cpp/il2cpp.hpp"
 #include "renderer/fonts/font_awesome_5.h"
 #include "game/sdk.hpp"
+#include "services/notification_service/notification_service.hpp"
 
 namespace menu
 {

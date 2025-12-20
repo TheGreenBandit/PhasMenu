@@ -12,7 +12,7 @@ namespace menu
         {
             colors[ImGuiCol_WindowBg] = ImVec4(0.03f, 0.03f, 0.03f, 0.50f);
             colors[ImGuiCol_ChildBg] = ImVec4(0.05f, 0.05f, 0.05f, 0.50f);
-            colors[ImGuiCol_Border] = ImVec4(0.10f, 0.50f, 0.10f, 1.00f);
+            colors[ImGuiCol_Border] = ImVec4(0.10f, 0.50f, 0.10f, 0.00f);
 
             colors[ImGuiCol_FrameBg] = ImColor(20, 20, 20, 255);
             colors[ImGuiCol_FrameBgHovered] = ImColor(15, 40, 15, 255);
@@ -30,7 +30,7 @@ namespace menu
         ImGuiStyle* style = &ImGui::GetStyle();
         {
             style->WindowPadding = ImVec2(14, 14);
-            style->WindowBorderSize = 10.f;
+            style->WindowBorderSize = 5.f;
             style->WindowRounding = 15.f;
 
             style->FramePadding = ImVec2(6, 6);
@@ -41,9 +41,12 @@ namespace menu
             style->ChildRounding = 5.f;
         }
 	}
+    ImVec2 main_size = ImVec2(-1, -1);
+    ImVec2 main_topleft = ImVec2(-1, -1);
 
 	void gui::render()//bug, discord overlay appears on gui
 	{
+        g_notification_service->draw();
         handle_input();
         ImGui::SetNextWindowPos(ImVec2(0, 0));
         ImVec2 screen = g_gui_util->get_screen_size();
@@ -58,8 +61,30 @@ namespace menu
         ImGui::PopFont();
 
         ImGui::PopStyleVar();
+        //make custom image crosshair
         ImGui::GetWindowDrawList()->AddCircle(ImVec2(screen.x / 2, screen.y / 2), 10, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));//crosshair test
         ImGui::GetWindowDrawList()->AddCircle(ImVec2(screen.x / 2, screen.y / 2), 5, ImGui::ColorConvertFloat4ToU32(ImVec4(1, 1, 1, 1)));
+        
+        
+        //this works
+        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border2")->second->get_current_frame()->view, ImVec2(main_topleft.x, main_topleft.y + 8), ImVec2(main_topleft.x + 480, main_topleft.y));
+        
+        //border testing
+        //Top
+        static float speed = .2f;
+        float wb = ImGui::GetStyle().WindowBorderSize;//fix me so it borders the window right, once fixed try removing it down to just 1 gif
+        ImVec2 win_max = ImVec2(main_topleft.x + main_size.x, main_topleft.y + main_size.y);
+        if ((main_topleft != ImVec2(-1, -1)) && menu_open)
+        {
+            //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border1")->second->get_current_frame(0, speed)->view, ImVec2(main_topleft.x - wb, main_topleft.y), ImVec2(win_max.x + wb, main_topleft.y + wb));
+            //Bottom
+            //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border2")->second->get_current_frame(1, speed)->view, ImVec2(main_topleft.x - wb, win_max.y), ImVec2(win_max.x + wb, win_max.y + wb));
+            // Left
+            //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border3")->second->get_current_frame(2, speed)->view, ImVec2(main_topleft.x - wb, main_topleft.y), ImVec2(main_topleft.x, win_max.y));
+            // Right
+            //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border4")->second->get_current_frame(3, speed)->view, ImVec2(win_max.x, main_topleft.y), ImVec2(win_max.x + wb, win_max.y));
+        }
+
         for (auto feature : g_toggle_features)
         {
             if (feature->is_enabled())
@@ -71,45 +96,49 @@ namespace menu
             return;
 
 		ImGui::Begin("PhasMenu", nullptr, ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoBringToFrontOnFocus);
-        
-        ImGui::SetWindowFocus();
+        main_topleft = ImGui::GetWindowPos();
+        main_size = ImGui::GetWindowSize();
+        //ImGui::SetWindowFocus();
         ImGui::Text("PhasMenu Dev Staging");
 		ImGui::Separator();
-        ImGui::BeginChild("side_bar", ImVec2(50, 350));//side bar
+        ImGui::BeginGroup();
+        
+        ImGui::BeginChild("side_bar", ImVec2(50, main_size.y - ImGui::GetStyle().WindowPadding.y * 2));//side bar
         ImGui::Button("H", ImVec2(50, 50));//home
         ImGui::Button("S", ImVec2(50, 50));//self
         ImGui::Button("V", ImVec2(50, 50));//visual
         ImGui::Button(ICON_FA_COGS, ImVec2(50, 50));//settings
         ImGui::EndChild();
+        ImGui::EndGroup();
         ImGui::SameLine();
-        ImGui::BeginChild("main_view", ImVec2(755, 350));
+        ImGui::BeginGroup();
+        ImGui::BeginChild("main_view", ImVec2(main_size.x - 50 - ImGui::GetStyle().WindowPadding.x * 2, main_size.y - ImGui::GetStyle().WindowPadding.y * 2));
         if (ImGui::Button("DUMP TO FILE"))
             g_il2cpp.dump_to_file(g_file_manager.get_base_dir() / "sdk_dump.hpp");
         if (ImGui::Button("Test Log"))
             LOG(INFO) << "TEST";
         if (ImGui::Button("Test Notification"))
+        {
+            g_notification_service->push("TEST NOTIFICATION!", "TEST MESSAGE");
             notify::dx("DEBUG", "Test notification.", ImGuiToastType_Info);
+        }
 
-        ImGui::Text(std::format("ALPHA {}", ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w).c_str());
+
+        ImGui::Text("ALPHA");
         ImGui::SameLine();
-        ImGui::SliderFloat("Value", &(ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w), .1, 1);
+        ImGui::SliderFloat("## 1", &(ImGui::GetStyle().Colors[ImGuiCol_WindowBg].w), .1, 1);
+        ImGui::Text("WINDOW BORDER");
+        ImGui::SameLine();
+        ImGui::SliderFloat("## 2", &ImGui::GetStyle().WindowBorderSize, 1, 50);
+        ImGui::Text("SPEED");
+        ImGui::SameLine();
+        ImGui::SliderFloat("## 3", &speed, .01, 1);
+        
         try
         {
-            //Fusebox ESP
             g_gui_util->checkbox("Fusebox ESP");
-            ImGui::SameLine();
-            ImGui::PushItemWidth(50);
-            ImGui::ColorPicker4("Fusebox Color", feature::get_feature_from_label_type_specific<fuse_box_esp>("Fusebox ESP")->color_esp, ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoInputs);
-
-            ImGui::Checkbox("FuseboxLine ESP", &feature::get_feature_from_label_type_specific<fuse_box_esp>("Fusebox ESP")->line_esp);
-
             g_gui_util->checkbox("Ghost ESP");
-            ImGui::SameLine();
-            ImGui::PushItemWidth(50);
-            ImGui::ColorPicker4("ESP Color", feature::get_feature_from_label_type_specific<ghost_esp>("Ghost ESP")->color_esp, ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoInputs);
 
-            ImGui::Checkbox("Box ESP", &feature::get_feature_from_label_type_specific<ghost_esp>("Ghost ESP")->box_esp);
-            ImGui::Checkbox("Line ESP", &feature::get_feature_from_label_type_specific<ghost_esp>("Ghost ESP")->line_esp);
             g_gui_util->checkbox("Infinite Sprint");
             g_gui_util->checkboxslider("Movement Speed", "", 0, 10);
         }
@@ -118,7 +147,34 @@ namespace menu
             LOG(WARNING) << "GUI ERROR: " << e.what();
         }
         ImGui::EndChild();
-		ImGui::End();
+        ImGui::EndGroup();
+        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border")->second->get_current_frame()->view, ImVec2(tl.x, tl.y - 50), ImVec2(tl.x + size.x, tl.y + size.y + 50));
+        // Top
+        
+        // Bottom
+        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border2")->second->get_current_frame()->view, ImVec2(tl.x - wb, win_max.y), ImVec2(win_max.x + wb, win_max.y + wb));
+        // Left
+        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border3")->second->get_current_frame()->view, ImVec2(tl.x - wb, tl.y), ImVec2(tl.x, win_max.y));
+        // Right
+        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border4")->second->get_current_frame()->view, ImVec2(win_max.x, tl.y), ImVec2(win_max.x + wb, win_max.y));
+        //ImGui::GetForegroundDrawList()->AddImage(g_renderer.gifs.find("rainbow_border1")->second->get_current_frame()->view, ImVec2(tl.x, tl.y), ImVec2(tl.x + size.x, tl.y + size.y));
+        ImGui::End();
+
+        for (toggle_feature* feature : g_toggle_features)
+        {
+            const char* popup = std::format("{}_popup", feature->label()).c_str();
+            if (feature->popup_open())
+            {
+                ImGui::SetNextWindowSize(ImVec2(190, 195));
+                ImGui::Begin(popup, &feature->popup_open(), ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+                ImGui::Text(feature->label().c_str());
+                ImGui::Separator();
+                ImGui::BeginChild(std::format("{}_child", feature->label()).c_str());
+                feature->on_gui();
+                ImGui::EndChild();
+                ImGui::End();
+            }
+        }
 	}
 
 	void gui::handle_input()

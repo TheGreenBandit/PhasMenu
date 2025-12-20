@@ -9,7 +9,7 @@ namespace menu
 	{
 		using toggle_feature::toggle_feature;
 
-		ImVec2 screen_pos;
+		ImVec2 screen_pos = ImVec2(-1, -1);
 
 		float distance = 1.f;//todo make on_gui be so that when you right click an option is opens a popup window with the feature's extrea options usch as color, different ways, etc
 		bool line_esp = false;
@@ -19,6 +19,12 @@ namespace menu
 
 		virtual void on_tick() override
 		{
+			if (!g_game_util->is_game_started())
+			{
+				screen_pos = ImVec2(-1, -1);
+				return;
+			}
+
 			auto fuse_box = game::network->Fields.LocalPlayer->Fields.PlayerStats->Fields.LevelController->Fields.FuseBox;
 			if (fuse_box != nullptr)
 			{
@@ -46,6 +52,13 @@ namespace menu
 					ImGui::GetBackgroundDrawList()->AddLine(ImVec2(screen.x / 2, screen.y), screen_pos, ImGui::GetColorU32(ImVec4(color_esp[0], color_esp[1], color_esp[2], color_esp[3])));
 			}
 		}
+
+		virtual void on_gui() override
+		{
+			ImGui::PushItemWidth(100);
+			ImGui::ColorPicker4("Color", color_esp, ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoInputs);
+			ImGui::Checkbox("Line ESP", &line_esp);
+		}
 	};
-	static inline fuse_box_esp* g_fuse_box_esp = new fuse_box_esp("Fusebox ESP", "Lights, Camera, Action.");
+	static inline fuse_box_esp* g_fuse_box_esp = new fuse_box_esp("Fusebox ESP", "Lights, Camera, Action.", EXTRA_MENU);
 }

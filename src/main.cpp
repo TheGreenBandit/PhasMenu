@@ -3,6 +3,7 @@
 #include "thread_pool.hpp"
 #include "renderer/renderer.hpp"
 #include "util/game_util.hpp"
+#include "services/notification_service/notification_service.hpp"
 
 using namespace menu;
 
@@ -21,6 +22,8 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 				std::filesystem::path base_dir = std::getenv("appdata");
 				base_dir /= "PhasMenu";
 				g_file_manager.init(base_dir);
+
+				//g_file_manager.get_project_folder("./Resources/").get_file("./rainbow_border.gif");
 				auto logger_instance = std::make_unique<logger>("PhasMenu", g_file_manager.get_project_file("./PhasMenu.log"));
 				//init
 				LOG(INFO) << "Initializing...";
@@ -31,6 +34,8 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 				LOG(INFO) << "Settings Loaded.";
 				g_feature_manager.init();
 				LOG(INFO) << "Features Loaded.";
+				auto notification_service_instance = std::make_unique<notification_service>();
+
 				g_renderer.init();
 				LOG(INFO) << "Renderer Loaded.";
 				g_il2cpp.init();
@@ -50,11 +55,11 @@ BOOL APIENTRY DllMain(HMODULE hmod, DWORD reason, PVOID)
 
 				g.destroy();
 				g_renderer.destroy();
+				notification_service_instance.reset();
 				hooking_instance.reset();
 				LOG(INFO) << "Hooking uninitialized.";
 				g_feature_manager.destroy();
 				LOG(INFO) << "Destroyed feature manager.";
-
 				thread_pool_instance->destroy();
 				LOG(INFO) << "Destroyed thread pool.";
 

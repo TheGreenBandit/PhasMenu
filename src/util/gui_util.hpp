@@ -14,16 +14,20 @@ namespace menu
 			toggle_feature* feature = feature::get_togglefeature_from_label(featurelabel);
 			if (feature == g_default_toggle)
 			{
-				ImGui::Text(std::format("NULL FEATURE! {}", featurelabel.data()).c_str());
+				ImGui::Text("NULL FEATURE! %s", featurelabel.data());
 				return;
 			}
+
 			ImGui::PushID(feature->label().c_str());
-			bool guipos = ((uint32_t)feature->flags() & (1 << (uint32_t)feature_flags::EXTRA_MENU));
-			if (guipos) { feature->on_gui(); ImGui::SameLine(); }
 			ImGui::Checkbox(featurelabel.data(), &feature->is_enabled());
-			if (ImGui::IsItemHovered() && feature->description() != "")
-				ImGui::SetTooltip(feature->description().c_str());
-			if (!guipos) feature->on_gui();
+			bool has_extra_options = (feature->flags() & EXTRA_MENU);
+			if (ImGui::IsItemHovered() && !feature->description().empty())
+				ImGui::SetTooltip(std::format("{}{}", has_extra_options ? "Right click for more options!\n" : "", feature->description().c_str()).c_str());
+			if (has_extra_options)
+			{
+				if (ImGui::IsItemClicked(ImGuiMouseButton_Right))
+					feature->popup_open() = !feature->popup_open();
+			}
 			ImGui::PopID();
 		}
 
@@ -35,10 +39,11 @@ namespace menu
 				ImGui::Text(std::format("NULL FEATURE! {}", featurelabel.data()).c_str());
 				return;
 			}
+			ImGui::PushID(("##" + feature->label()).c_str());
 			ImGui::Checkbox(featurelabel.c_str(), &feature->is_enabled());
 			if (ImGui::IsItemHovered() && feature->description() != "")
 				ImGui::SetTooltip(feature->description().c_str());
-
+			ImGui::PopID();
 			ImGui::SameLine();
 			ImGui::PushID(feature->label().c_str());
 			ImGui::SliderFloat(value != "." ? value.data() : featurelabel.c_str(), &feature->value(), min, max);

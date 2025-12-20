@@ -20,6 +20,12 @@ namespace menu
 
 		virtual void on_tick() override
 		{
+			if (!g_game_util->is_game_started())
+			{
+				screen_pos = ImVec2(-1, -1);
+				return;
+			}
+
 			if (auto ghost = game::network->Fields.LocalPlayer->Fields.PlayerStats->Fields.LevelController->Fields.CurrentGhost; ghost != nullptr)
 			{
 				sdk::Vector3 pos = sdk::Transform_Get_Position_ptr(ghost->Fields.HuntingRaycastPoint, nullptr);
@@ -52,6 +58,15 @@ namespace menu
 					ImGui::GetBackgroundDrawList()->AddRect(ImVec2(screen_pos.x - (62.5f * mult), screen_pos.y - (175.f * mult)), ImVec2(screen_pos.x - (62.5f * mult) + (125.f * mult), screen_pos.y - (175.f * mult) + (350.f * mult)), ImGui::GetColorU32(ImVec4(color_esp[0], color_esp[1], color_esp[2], color_esp[3])));
 			}		
 		}
+
+		virtual void on_gui() override
+		{
+			ImGui::PushItemWidth(100);
+			ImGui::ColorPicker4("Color", color_esp, ImGuiColorEditFlags_NoSidePreview | ImGuiColorEditFlags_NoOptions | ImGuiColorEditFlags_NoInputs);
+
+			ImGui::Checkbox("Box ESP", &box_esp);
+			ImGui::Checkbox("Line ESP", &line_esp);
+		}
 	};
-	static inline ghost_esp* g_ghost_esp = new ghost_esp("Ghost ESP", "Spot the ghost.");
+	static inline ghost_esp* g_ghost_esp = new ghost_esp("Ghost ESP", "Spot the ghost.", EXTRA_MENU);
 }
