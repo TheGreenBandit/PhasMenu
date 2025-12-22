@@ -1,24 +1,22 @@
 #pragma once
 #include "sdk.hpp"
 #include "player_stats.hpp"
+#include "level_room.hpp"
 
 namespace menu::sdk
 {
-	struct PlayerSanity;
-	struct LevelRoom;
-	struct FirstPersonController;
 	struct PCFlashlight;
 
 	struct PlayerFields
 	{
 		MonoBehaviourFields MonoBehaviourFields;
-		void* View; // PhotonView
+		void* View; // PhotonView need
 		bool IsDead;
 		bool IsDyingLocally;
 		int32_t ModelID;
 		void* PlayerCharacter; // PlayerCharacter
 		void* Closet; // ClosetZone
-		void* HeadObject; // GameObject
+		GameObject* HeadObject; // GameObject
 		Transform* TrackedHead; // Transform
 		void* Keys; // List<KeyInfo>
 		Camera* Camera; // Camera

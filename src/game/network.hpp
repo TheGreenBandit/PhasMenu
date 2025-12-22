@@ -6,23 +6,73 @@ namespace menu::sdk
 {
 	struct Network;
 
+	enum Role : uint32_t
+	{
+		None,
+		Developer,
+		Discord,
+		Creator,
+		Translator,
+		Competition,
+		Artist,
+		Holiday22,
+		Easter23,
+		Halloween23,
+		Holiday23,
+		Easter24,
+		Halloween24,
+		Holiday24,
+		Easter25,
+		Halloween25,
+		Holiday25,
+		ApocalypseSilver,
+		ApocalypseGold,
+		LighthouseKeeper,
+		LighthouseFerryman,
+		Ranger,
+		Inmate,
+		Halloween24Foil,
+		Holiday24Foil,
+		Easter24Foil,
+		AchievementHunter,
+		Halloween25Foil,
+		Holiday25Foil,
+		Easter25Foil,
+		TwitchDropChronicle,
+		TwitchDropChronicleFoil,
+		AmericanHeart,
+		AmericanHeartFoil,
+		FarmhouseFieldwork,
+		TwitchDropGrafton,
+		TwitchDropGraftonFoil,
+		Anniversary25,
+		TwitchCon25,
+		Anniversary25Foil,
+		TwitchCon25Foil,
+		DinerGhostInTheMachine,
+		NellsDiner,
+		TwitchDropNellsDiner,
+		TwitchDropNellsDinerFoil,
+		Moneybags
+	};
+
 	struct __declspec(align(8)) NetworkPlayerSpotFields
 	{
 		bool PlayerReady;
 		int PlayerCharacterIndex;
-		void* PhotonPlayer; // Photon.Realtime.Player
-		void* UnityPlayerID;//String*
+		void* PhotonPlayer; // Photon.Realtime.Player //neeeedddddddd, very useful
+		String* UnityPlayerID;//String*
 		int Experience;
 		int Level;
 		int Prestige;
 		Player* Player;
 		float PlayerVolume;
-		void* AccountName;//String*
+		String* AccountName;//String*
 		bool IsKicked;
 		bool IsHacker;
 		bool IsBlocked;
 		void* RoleBadges; // ???[]
-		void* Role; // ???
+		Role Role; // ???
 		int PrestigeIndex;
 		bool PrestigeTheme;
 		void* VotedContract; // Contract

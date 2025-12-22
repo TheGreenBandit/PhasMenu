@@ -31,6 +31,10 @@ namespace menu::sdk
 		Moroi,
 		Deogen,
 		Thaye,
+		None,
+		Gallu,
+		Dayan,
+		Obambo
 	};
 
 	struct GhostTraits

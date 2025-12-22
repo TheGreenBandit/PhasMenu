@@ -12,7 +12,8 @@ namespace menu
 		ImVec2 screen_pos = ImVec2(-1, -1);
 		std::string name = "NAME";
 		std::string type = "TYPE";
-		
+		sdk::Role currenttype;
+
 		float distance = 1.f;//todo make on_gui be so that when you right click an option is opens a popup window with the feature's extrea options usch as color, different ways, etc
 		bool box_esp = false;
 		bool line_esp = false;
@@ -28,6 +29,9 @@ namespace menu
 
 			if (auto ghost = game::network->Fields.LocalPlayer->Fields.PlayerStats->Fields.LevelController->Fields.CurrentGhost; ghost != nullptr)
 			{
+				for (auto p : g_game_util->playerlist)
+					currenttype = p->Fields.Role;
+
 				sdk::Vector3 pos = sdk::Transform_Get_Position_ptr(ghost->Fields.HuntingRaycastPoint, nullptr);
 				screen_pos = g_game_util->world_to_screen(pos);
 
@@ -66,6 +70,14 @@ namespace menu
 
 			ImGui::Checkbox("Box ESP", &box_esp);
 			ImGui::Checkbox("Line ESP", &line_esp);
+			std::string t = "";
+			switch (currenttype)
+			{
+			case NONE: t = "NONE";
+			default: t = "UNK";
+			}
+			ImGui::Text(std::format("Current idx: {}", (int)currenttype).c_str());
+			ImGui::Text(std::format("Current Type: {}", t).c_str());
 		}
 	};
 	static inline ghost_esp* g_ghost_esp = new ghost_esp("Ghost ESP", "Spot the ghost.", EXTRA_MENU);

@@ -9,6 +9,7 @@ namespace menu
 	{
 		SELF,
 		GHOST,
+		NETWORK,
 		VISUAL,
 		SETTINGS
 	};
@@ -22,6 +23,7 @@ namespace menu
 
 		void self_tab();
 		void ghost_tab();
+		void network_tab();
 		void visual_tab();
 		void settings_tab();
 
@@ -31,6 +33,7 @@ namespace menu
 			{
 				case SELF: return ICON_FA_USER;
 				case GHOST: return ICON_FA_SKULL_CROSSBONES;
+				case NETWORK: return ICON_FA_GLOBE;
 				case VISUAL: return ICON_FA_EYE;
 				case SETTINGS: return ICON_FA_COG;
 				default: return"NULL ICON";

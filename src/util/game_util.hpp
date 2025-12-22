@@ -17,6 +17,8 @@ namespace menu
 	class game_util
 	{
 	public:
+		std::vector<sdk::NetworkPlayerSpot*> playerlist;
+
 		sdk::Network* get_network()
 		{
 			if (game::network) return game::network;
@@ -150,6 +152,18 @@ namespace menu
 				break;
 			case sdk::GhostType::Thaye:
 				type = "Thaye";
+				break;
+			case sdk::GhostType::None:
+				type = "None";
+				break;
+			case sdk::GhostType::Gallu:
+				type = "Gallu";
+				break;
+			case sdk::GhostType::Dayan:
+				type = "Dayan";
+				break;
+			case sdk::GhostType::Obambo:
+				type = "Obambo";
 				break;
 			}
 

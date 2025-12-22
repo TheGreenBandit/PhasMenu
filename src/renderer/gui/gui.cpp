@@ -114,6 +114,7 @@ namespace menu
             {
                 case SELF: self_tab(); break;
                 case GHOST: ghost_tab(); break;
+                case NETWORK: network_tab(); break;
                 case VISUAL: visual_tab(); break;
                 case SETTINGS: settings_tab(); break;
             }
