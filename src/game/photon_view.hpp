@@ -10,8 +10,8 @@ namespace menu::sdk
 
 	struct PhotonView
 	{
-
 	};
+
 	struct PhotonPlayer 
 	{
 
@@ -25,7 +25,7 @@ namespace menu::sdk
 		bool enableSupportLogger; //0x2C
 		bool runInBackground; //0x2D
 		bool startInOfflineMode;//0x2E
-		void* rpcList;//0x30 List<string> what we are really after, can list every rpc in game using this
+		ListStringFields* rpcList;//0x30 List<string> what we are really after, can list every rpc in game using this
 	};
 
 	struct PhotonNetwork
@@ -36,6 +36,20 @@ namespace menu::sdk
 		//String* serverSettingsFileName;//default "PhotonServerSettings"
 		ServerSettings* photonServerSettings;//0x18
 		//not writing the rest out fuck it
+	};
+
+	struct Object
+	{
+	};
+
+	// Object[]
+	struct ObjectArray
+	{
+		void* Clazz;
+		void* Monitor;
+		void* Bounds; // Il2CppArrayBounds
+		void* MaxLength; // Il2CppArraySizeT
+		Object* Vector[65535];
 	};
 
 	enum RpcTarget : int32_t
@@ -49,6 +63,7 @@ namespace menu::sdk
 		AllBufferedViaServer
 	};
 	//can get rpc names off this, and more
-	DECLARE_POINTER(PhotonView_RPC, void(*)(String* method_name, RpcTarget target, void* /*params object[]*/ paramters), "PhotonUnityNetworking", "Photon.Pun", "PhotonView", "RPC", 3)
+	DECLARE_POINTER(PhotonView_ToString, String*(*)(PhotonView* _this, method_info* mi), "PhotonUnityNetworking", "Photon.Pun", "PhotonView", "ToString", 0)
+	DECLARE_POINTER(PhotonView_RPC, void(*)(PhotonView* _this, String* method_name, RpcTarget target, ObjectArray* paramters, method_info* mi), "PhotonUnityNetworking", "Photon.Pun", "PhotonView", "RPC", 3)
 	//DECLARE_POINTER(PhotonView_RPC, void(*)(String* method_name, PhotonPlayer* target, void* /*params object[]*/ paramters), "PhotonUnityNetworking", "Photon.Pun", "PhotonView", "RPC", 3)
 }

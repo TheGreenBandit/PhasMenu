@@ -12,12 +12,32 @@
         return std::string(_wide.begin(), _wide.end());\
     })()
 
+#define S_(s)\
+    ([&]() -> sdk::String* {                            \
+        return sdk::Marshal_PtrToStringAnsi_ptr((void*)s, nullptr);\
+    })()
+
 namespace menu
 {
 	class game_util
 	{
 	public:
 		std::vector<sdk::NetworkPlayerSpot*> playerlist;
+
+		template<typename T>
+		sdk::PhotonView* get_photon_view(T* base)
+		{
+			reinterpret_cast<sdk::PhotonView*>(sdk::GameObject_GetComponentByName_ptr(sdk::Component_Get_GameObject_ptr(reinterpret_cast<sdk::Component*>(base), nullptr), S_("PhotonView"), nullptr));
+		}
+
+		//add args!
+		template <typename... args>
+		void send_rpc(sdk::PhotonView* view, std::string name, sdk::RpcTarget target, args ...)//add param support
+		{
+			//add param support todo 
+
+			//sdk::PhotonView_RPC_ptr(view, S_(name.c_str()), target, ..., nullptr);
+		}
 
 		sdk::Network* get_network()
 		{

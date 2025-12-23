@@ -8,7 +8,6 @@
 #include <MinHook.h>
 #include "memory/pointers.hpp"
 #include "game/exit_level.hpp"
-#include "game/ghost_ai.hpp"
 
 namespace menu
 {
@@ -30,6 +29,7 @@ namespace menu
 		static sdk::Network* network_getnetwork(method_info* mi);
 		static void exitlevel_exit(sdk::ExitLevel* el, void* photonMessageInfo, method_info* methodInfo);
 		static void firstpersoncontroller_update(sdk::FirstPersonController* fpc, method_info* mi);
+		static void photonview_rpc(sdk::PhotonView* _this, sdk::String* method_name, sdk::RpcTarget target, void* parameters, method_info* mi);
 	};
 
 	class hooking

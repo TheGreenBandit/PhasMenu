@@ -2,6 +2,8 @@
 #include "sdk.hpp"
 #include "player_stats.hpp"
 #include "level_room.hpp"
+#include "photon_object_interact.hpp"
+#include "photon_view.hpp"
 
 namespace menu::sdk
 {
@@ -10,7 +12,7 @@ namespace menu::sdk
 	struct PlayerFields
 	{
 		MonoBehaviourFields MonoBehaviourFields;
-		void* View; // PhotonView need
+		PhotonView* View; // PhotonView need
 		bool IsDead;
 		bool IsDyingLocally;
 		int32_t ModelID;
@@ -22,15 +24,15 @@ namespace menu::sdk
 		Camera* Camera; // Camera
 		LevelRoom* CurrentRoom; // LevelRoom
 		Transform* MapIcon; // Transform
-		void* RightCurrentHeldObject; // PhotonObjectInteract
-		void* LeftCurrentHeldObject; // PhotonObjectInteract
+		PhotonObjectInteract* RightCurrentHeldObject; // PhotonObjectInteract
+		PhotonObjectInteract* LeftCurrentHeldObject; // PhotonObjectInteract
 		void* CharacterModels; // GameObject[]
-		void* GhostDeathHands; // GameObject
+		GameObject* GhostDeathHands; // GameObject
 		int32_t GhostRaycastMask; // LayerMask
 		void* HeadSock; // HeadMountedSocket
 		void* LOSTarget; // PlayerLOSTarget[]
 		Transform* AITargetPoint; // Transform
-		void* DeadBodyPrefab; // GameObject
+		GameObject* DeadBodyPrefab; // GameObject
 		void* DeadPlayer; // DeadPlayer
 		PlayerSanity* PlayerSanity; // PlayerSanity
 		PlayerStats* PlayerStats; // PlayerStats

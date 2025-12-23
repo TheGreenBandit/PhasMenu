@@ -134,7 +134,7 @@ namespace menu
             if (feature->popup_open())
             {
                 ImGui::SetNextWindowSize(ImVec2(190, 195));
-                ImGui::Begin(popup, &feature->popup_open(), ImGuiWindowFlags_NoTitleBar | ImGuiWindowFlags_NoResize);
+                ImGui::Begin(popup, &feature->popup_open(), ImGuiWindowFlags_NoTitleBar);
                 ImGui::Text(feature->label().c_str());
                 ImGui::Separator();
                 ImGui::BeginChild(std::format("{}_child", feature->label()).c_str());

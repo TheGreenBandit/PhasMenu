@@ -1,5 +1,7 @@
 #pragma once
 #include "sdk.hpp"
+#include "game_object.hpp"
+#include "photon_view.hpp"
 
 namespace menu::sdk
 {
@@ -8,7 +10,7 @@ namespace menu::sdk
 	struct PhotonObjectInteractFields
 	{
 		MonoBehaviourFields MonoBehaviourFields;
-		void* Field0; // PhotonView
+		PhotonView* Field0; // PhotonView
 		void* Field1; // PhotonTransformView
 		void* Field2; // VRGrabbable
 		Rigidbody* Field3;

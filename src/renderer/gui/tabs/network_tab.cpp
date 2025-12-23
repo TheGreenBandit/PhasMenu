@@ -55,7 +55,7 @@ namespace menu
 			ImGui::Text(selected_player->Fields.Player->Fields.IsDead ? "Dead" : "Alive");
 			ImGui::Text(std::format("Current Speed: {}", selected_player->Fields.Player->Fields.MovementSpeed).c_str());
 			ImGui::Text(std::format("Sanity: {}", 100 - selected_player->Fields.Player->Fields.PlayerSanity->Fields.Insanity).c_str());
-			ImGui::Text(std::format("Current Room: {}", selected_player->Fields.Player->Fields.CurrentRoom != nullptr ? "" : "Not in a room.").c_str());
+			ImGui::Text(std::format("Current Room: {}", selected_player->Fields.Player->Fields.CurrentRoom != nullptr ? S(selected_player->Fields.Player->Fields.CurrentRoom->Fields.RoomName) : "Not in a room.").c_str());
 			auto curpos = selected_player->Fields.Player->Fields.MapIcon->position;
 			ImGui::Text(std::format("Position: X:{} Y:{} Z:{}", curpos->X, curpos->Y, curpos->Z).c_str());
 

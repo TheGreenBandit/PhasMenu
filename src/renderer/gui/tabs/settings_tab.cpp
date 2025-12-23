@@ -23,5 +23,6 @@ namespace menu
             for (auto f : g_toggle_features)
                 LOG(INFO) << f->label();
         }
+        g_gui_util->checkbox("Unity Logger");
 	}
 }
