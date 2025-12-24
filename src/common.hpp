@@ -27,6 +27,12 @@
 #include "renderer/fonts/font_awesome_5.h"
 #include "game/sdk.hpp"
 #include "services/notification_service/notification_service.hpp"
+#include "appdata/il2cpp-types.h"
+#include "appdata/il2cpp-functions.h"
+#include "appdata/il2cpp-api-functions.h"
+#include "appdata/il2cpp-api-functions-ptr.h"
+#include "appdata/il2cpp-metadata-version.h"
+#include "appdata/il2cpp-types-ptr.h"
 #include "util/logger/logger.hpp"
 
 #define RELEASE "V1.00 ALPHA"
@@ -42,7 +48,6 @@ namespace menu
 	static HANDLE g_main_thread;
 	static DWORD g_main_thread_id;
 	static std::atomic_bool g_running = true;
-
 	namespace game
 	{
 		inline sdk::Network* network;

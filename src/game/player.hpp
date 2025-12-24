@@ -87,7 +87,7 @@ namespace menu::sdk
 		void* MaxLength; // Il2CppArraySizeT
 		Player* Vector[65535];
 	};
-
+	
 	struct __declspec(align(8)) ListPlayerFields
 	{
 		PlayerArray* Items;
@@ -102,7 +102,6 @@ namespace menu::sdk
 		void* Monitor;
 		ListPlayerFields Fields;
 	};
-
 	DECLARE_POINTER(Player_KillPlayer, void(*)(Player* player, method_info* mi), "Assembly-CSharp", "", "Player", "KillPlayer", 0)
 
 	DECLARE_POINTER(Player_StartKillingPlayer, void(*)(Player* player, method_info* mi), "Assembly-CSharp", "", "Player", "StartKillingPlayer", 0)

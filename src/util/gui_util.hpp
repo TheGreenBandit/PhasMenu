@@ -11,6 +11,7 @@ namespace menu
 	public:
 		void checkbox(std::string_view featurelabel)
 		{
+			app::
 			toggle_feature* feature = feature::get_togglefeature_from_label(featurelabel);
 			if (feature == g_default_toggle)
 			{
