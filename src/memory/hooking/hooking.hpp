@@ -26,10 +26,10 @@ namespace menu
 
 	struct hooks
 	{
-		static sdk::Network* network_getnetwork(method_info* mi);
-		static void exitlevel_exit(sdk::ExitLevel* el, void* photonMessageInfo, method_info* methodInfo);
-		static void firstpersoncontroller_update(sdk::FirstPersonController* fpc, method_info* mi);
-		static void photonview_rpc(sdk::PhotonView* _this, sdk::String* method_name, sdk::RpcTarget target, void* parameters, method_info* mi);
+		static sdk::Network* network_getnetwork(MethodInfo* mi);
+		static void exitlevel_exit(sdk::ExitLevel* el, void* photonMessageInfo, MethodInfo* methodInfo);
+		static void firstpersoncontroller_update(sdk::FirstPersonController* fpc, MethodInfo* mi);
+		static void photonview_rpc(sdk::PhotonView* _this, sdk::String* method_name, sdk::RpcTarget target, sdk::Object__Array* parameters, MethodInfo* mi);
 	};
 
 	class hooking

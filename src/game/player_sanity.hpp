@@ -4,11 +4,12 @@
 namespace menu::sdk
 {
 	struct Player;
+	struct PhotonView;
 
 	struct PlayerSanityFields
 	{
 		MonoBehaviourFields MonoBehaviourFields;
-		void* View; // PhotonView
+		PhotonView* View; // PhotonView
 		Player* Player;
 		float Insanity;//100 -insanity
 		float SanityUpdateTimer;
@@ -25,11 +26,11 @@ namespace menu::sdk
 
 	struct PlayerSanity
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		PlayerSanityFields Fields;
 	};
 
-	DECLARE_POINTER(PlayerSanity_SetInsanity, void(*)(PlayerSanity* playerSanity, int insanity, method_info* methodInfo), "Assembly-CSharp", "", "PlayerSanity",
+	DECLARE_POINTER(PlayerSanity_SetInsanity, void(*)(PlayerSanity* playerSanity, int insanity, MethodInfo* methodInfo), "Assembly-CSharp", "", "PlayerSanity",
 	                       "SetInsanity", 1);
 }

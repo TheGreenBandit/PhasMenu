@@ -95,6 +95,87 @@ namespace menu
 			return ret; 
 		}
 
+		std::string get_ghost_state(sdk::GhostState gs)
+		{
+			std::string state = "Unknown";
+
+			switch (gs)
+			{
+				case sdk::GhostState::Idle:
+					state = "Idle";
+					break;
+				case sdk::GhostState::Wander:
+					state = "Wandering";
+					break;
+				case sdk::GhostState::Hunting:
+					state = "Hunting";
+					break;
+				case sdk::GhostState::FavoriteRoom:
+					state = "FavoriteRoom";
+					break;
+				case sdk::GhostState::Light:
+					state = "Interacting With A Light";
+					break;
+				case sdk::GhostState::Door:
+					state = "Interacting With A Door";
+					break;
+				case sdk::GhostState::Throwing:
+					state = "Throwing A Prop";
+					break;
+				case sdk::GhostState::FuseBox:
+					state = "Interacting With Fusebox";
+					break;
+				case sdk::GhostState::Appear:
+					state = "Appearing";
+					break;
+				case sdk::GhostState::DoorKnock:
+					state = "Knocking On Door";
+					break;
+				case sdk::GhostState::WindowKnock:
+					state = "Knocking On Window";
+					break;
+				case sdk::GhostState::CarAlarm:
+					state = "Setting of Alarm";
+					break;
+				case sdk::GhostState::Flicker:
+					state = "Flashing";
+					break;
+				case sdk::GhostState::CCTV:
+					state = "Camera stuff";
+					break;
+				case sdk::GhostState::RandomEvent:
+					state = "Doing Something Random";
+					break;
+				case sdk::GhostState::GhostAbility:
+					state = "Doing Ability";
+					break;
+				case sdk::GhostState::Mannequin:
+					state = "Interacting With Mannequin";
+					break;
+				case sdk::GhostState::TeleportObject:
+					state = "Teleporting Object";
+					break;
+				case sdk::GhostState::Interact:
+					state = "Interacting With Something";
+					break;
+				case sdk::GhostState::SummoningCircle:
+					state = "Being Summoned";
+					break;
+				case sdk::GhostState::MusicBox:
+					state = "Music Box";
+					break;
+				case sdk::GhostState::Dots:
+					state = "Appearing in Dots";
+					break;
+				case sdk::GhostState::Salt:
+					state = "Interacting With Salt";
+					break;
+				default: state = "Unknown";
+			}
+
+			return state;
+		}
+
 		std::string get_ghost_name(sdk::GhostType gt)//make this better
 		{
 			std::string type = "Unknown";

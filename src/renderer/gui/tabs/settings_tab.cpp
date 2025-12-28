@@ -10,7 +10,7 @@ namespace menu
         ImGui::SliderFloat("Rainbow Border Speed", &g.gui.rainbow_border_speed, .01, 1);
 
 		ImGui::SeparatorText("Debug Stuff");
-
+        g_gui_util->checkbox("RPC Viewer");
         if (ImGui::Button("DUMP TO FILE"))
             g_il2cpp.dump_to_file(g_file_manager.get_base_dir() / "sdk_dump.hpp");
         if (ImGui::Button("Test Log"))
@@ -23,6 +23,5 @@ namespace menu
             for (auto f : g_toggle_features)
                 LOG(INFO) << f->label();
         }
-        g_gui_util->checkbox("Unity Logger");
 	}
 }

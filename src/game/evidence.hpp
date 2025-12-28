@@ -13,18 +13,18 @@ namespace menu::sdk
 
 	struct Evidence
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		EvidenceFields Fields;
 	};
 
 	// Evidence[]
 	struct EvidenceArray
 	{
-		void* Clazz;
-		void* Monitor;
-		void* Bounds; // Il2CppArrayBounds
-		void* MaxLength; // Il2CppArraySizeT
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
+		Il2CppArrayBounds* Bounds; // Il2CppArrayBounds
+		il2cpp_array_size_t* MaxLength; // Il2CppArraySizeT
 		Evidence* Vector[65535];
 	};
 
@@ -33,14 +33,14 @@ namespace menu::sdk
 		EvidenceArray* Items;
 		int32_t Size;
 		int32_t Version;
-		void* SyncRoot; // Object
+		Object* SyncRoot; // Object
 	};
 
 	// List<Evidence>
 	struct ListEvidence
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		ListEvidenceFields Fields;
 	};
 

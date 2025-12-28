@@ -15,8 +15,8 @@ namespace menu::sdk
 
 	struct PlayerStats
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		PlayerStatsFields Fields;
 	};	
 }

@@ -7,7 +7,7 @@ namespace menu::sdk
 
 	struct PlayerStaminaFields
 	{
-		void* MonoBehaviourFields;//MonoBehaviourFields MonoBehaviourFields;
+		MonoBehaviourFields* MonoBehaviourFields;//MonoBehaviourFields MonoBehaviourFields;
 		void* OutOfStaminaSource; // AudioSource
 		void* OutOfBreathMale; // AudioClip[]
 		void* OutOfBreathFemale; // AudioClip[]
@@ -33,11 +33,11 @@ namespace menu::sdk
 
 	struct PlayerStamina
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		PlayerStaminaFields Fields;
 	};
 
-	DECLARE_POINTER(PlayerStamina_PreventStaminaDrainForTime, void (*)(float time, method_info* methodinfo), "Assembly-CSharp", "", "PlayerStamina", "PreventStaminaDrainForTime", 1);
-	DECLARE_POINTER(PlayerStamina_Update, void (*)(PlayerStamina* playerstamina, method_info* methodinfo), "Assembly-CSharp", "", "PlayerStamina", "Update", 0);
+	DECLARE_POINTER(PlayerStamina_PreventStaminaDrainForTime, void (*)(float time, MethodInfo* methodinfo), "Assembly-CSharp", "", "PlayerStamina", "PreventStaminaDrainForTime", 1);
+	DECLARE_POINTER(PlayerStamina_Update, void (*)(PlayerStamina* playerstamina, MethodInfo* methodinfo), "Assembly-CSharp", "", "PlayerStamina", "Update", 0);
 }

@@ -53,8 +53,8 @@ namespace menu::sdk
 
 	struct PhotonObjectInteract
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		PhotonObjectInteractFields Fields;
 	};
 }

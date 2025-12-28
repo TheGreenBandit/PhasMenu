@@ -21,12 +21,12 @@ namespace menu::sdk
 	{
 	};
 
-	DECLARE_POINTER(Rigidbody_Set_IsKinematic, void(*)(Rigidbody* rigidbody, bool isKinematic, method_info* methodInfo), "UnityEngine.PhysicsModule", "UnityEngine",
+	DECLARE_POINTER(Rigidbody_Set_IsKinematic, void(*)(Rigidbody* rigidbody, bool isKinematic, MethodInfo* methodInfo), "UnityEngine.PhysicsModule", "UnityEngine",
 		"Rigidbody", "set_isKinematic", 1);
 
-	DECLARE_POINTER(Rigidbody_Get_Constraints, RigidbodyConstraints(*)(Rigidbody* rigidbody, method_info* methodInfo), "UnityEngine.PhysicsModule", "UnityEngine",
+	DECLARE_POINTER(Rigidbody_Get_Constraints, RigidbodyConstraints(*)(Rigidbody* rigidbody, MethodInfo* methodInfo), "UnityEngine.PhysicsModule", "UnityEngine",
 		"Rigidbody", "get_constraints", 0);
 
-	DECLARE_POINTER(Rigidbody_Set_Constraints, void(*)(Rigidbody* rigidbody, RigidbodyConstraints contraints, method_info* methodInfo), "UnityEngine.PhysicsModule",
+	DECLARE_POINTER(Rigidbody_Set_Constraints, void(*)(Rigidbody* rigidbody, RigidbodyConstraints contraints, MethodInfo* methodInfo), "UnityEngine.PhysicsModule",
 		"UnityEngine", "Rigidbody", "set_constraints", 1);
 }

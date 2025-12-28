@@ -3,7 +3,7 @@
 
 namespace menu
 {
-	sdk::Network* hooks::network_getnetwork(method_info* mi)
+	sdk::Network* hooks::network_getnetwork(MethodInfo* mi)
 	{
 		//g_game_util->get_network();//probably will do my pointers for stuff in here
 		// cannot call get network in here, hooks is probably bad

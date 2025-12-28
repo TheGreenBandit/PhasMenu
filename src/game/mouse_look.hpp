@@ -23,8 +23,8 @@ namespace menu::sdk
 
 	struct MouseLook
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		MouseLookFields Fields;
 	};
 }

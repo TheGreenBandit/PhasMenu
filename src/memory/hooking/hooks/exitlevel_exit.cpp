@@ -3,7 +3,7 @@
 
 namespace menu
 {
-	void hooks::exitlevel_exit(sdk::ExitLevel* el, void* photonMessageInfo, method_info* mi)
+	void hooks::exitlevel_exit(sdk::ExitLevel* el, void* photonMessageInfo, MethodInfo* mi)
 	{
 		//reset
 		LOG(INFO) << "GAME OVER, SETTING STATES TO NULLPTR";

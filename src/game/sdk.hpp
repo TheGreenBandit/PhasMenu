@@ -11,5 +11,8 @@
 #include "ghost_ai.hpp"
 #include "string.hpp"
 #include "component.hpp"
+#include "object.hpp"
+#include "il2cpptemp.hpp"
+#include "type.hpp"
 //#include "vector2.h"
 //#include "transform.hpp"

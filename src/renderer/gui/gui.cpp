@@ -147,7 +147,7 @@ namespace menu
 
 	void gui::handle_input()
 	{
-        HWND main_hwnd = FindWindowA(NULL, "PhasMenu");
+        HWND main_hwnd = FindWindowA(NULL, (std::string("PhasMenu") + RELEASE).c_str());
         HWND overlay_hwnd = FindWindowA(NULL, "OVERLAY");
         if (GetAsyncKeyState(VK_INSERT) & 1)
         {
@@ -160,10 +160,16 @@ namespace menu
         //handle overlay shit
         if (m_menu_open)
         {
-            SetWindowLong(main_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TOOLWINDOW);//dont show in alttab
-            SetWindowPos(main_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);//keep focus
+            //SetWindowLong(main_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TOOLWINDOW);//dont show in alttab
+            //SetWindowPos(main_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_SHOWWINDOW);//keep focus
         }
         SetWindowLong(overlay_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TRANSPARENT | WS_EX_TOOLWINDOW);//not clickable, dont show in alttab
         SetWindowPos(overlay_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);//set to top
+        for (auto feature : g_toggle_features)//for esp n shit like that, or custom menus but we also have the popup menus for custom menus so
+        {
+            HWND feature_hwnd = FindWindowA(NULL, feature->label().c_str());
+            SetWindowLong(feature_hwnd, GWL_EXSTYLE, WS_EX_TOPMOST | WS_EX_LAYERED | WS_EX_TOOLWINDOW);
+            SetWindowPos(feature_hwnd, HWND_TOPMOST, 0, 0, 0, 0, SWP_NOMOVE | SWP_NOSIZE | SWP_NOACTIVATE | SWP_SHOWWINDOW);
+        }
 	}
 }

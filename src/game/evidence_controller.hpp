@@ -8,7 +8,7 @@ namespace menu::sdk
 		MonoBehaviourFields MonoBehaviourFields;
 		/*ListEvidence**/ void* EvidenceInLevel;
 		void* RoomsToSpawnDNAEvidenceInside; // LevelRoom[]
-		void* View; // PhotonView
+		PhotonView* View; // PhotonView
 		void* Bone; // DNAEvidence
 		/*Transform* */void* GhostOrb;//add esp for me
 		void* GhostOrbRenderer; // ParticleSystemRenderer
@@ -21,11 +21,11 @@ namespace menu::sdk
 
 	struct EvidenceController
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		EvidenceControllerFields Fields;
 	};
 
-	DECLARE_POINTER(EvidenceController_Start, void(*)(EvidenceController* evidenceController, method_info* methodInfo), "Assembly-CSharp", "", "EvidenceController", "Start",
+	DECLARE_POINTER(EvidenceController_Start, void(*)(EvidenceController* evidenceController, MethodInfo* methodInfo), "Assembly-CSharp", "", "EvidenceController", "Start",
 	                       0);
 }

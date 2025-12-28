@@ -38,12 +38,12 @@ namespace menu::sdk
 
 	struct FuseBox
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		FuseBoxFields Fields;
 	};
 
-	DECLARE_POINTER(FuseBox_Start, void (*)(FuseBox* fuseBox, method_info* methodInfo), "Assembly-CSharp", "", "FuseBox", "Start", 0);//get position on level start
+	DECLARE_POINTER(FuseBox_Start, void (*)(FuseBox* fuseBox, MethodInfo* methodInfo), "Assembly-CSharp", "", "FuseBox", "Start", 0);//get position on level start
 
-	DECLARE_POINTER(FuseBox_Use, void (*)(FuseBox* fuseBox, method_info* methodInfo), "Assembly-CSharp", "", "FuseBox", "Use", 0);//use to turn on remotely
+	DECLARE_POINTER(FuseBox_Use, void (*)(FuseBox* fuseBox, MethodInfo* methodInfo), "Assembly-CSharp", "", "FuseBox", "Use", 0);//use to turn on remotely
 }

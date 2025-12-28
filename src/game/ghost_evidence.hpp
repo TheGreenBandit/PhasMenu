@@ -18,10 +18,10 @@ namespace menu::sdk
 	// GhostEvidence[]
 	struct GhostEvidenceArray
 	{
-		void* Clazz;
-		void* Monitor;
-		void* Bounds; // Il2CppArrayBounds
-		void* MaxLength; // Il2CppArraySizeT
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
+		Il2CppArrayBounds* Bounds; // Il2CppArrayBounds
+		Il2CppArraySize* MaxLength; // Il2CppArraySizeT
 		GhostEvidence Vector[65535];
 	};
 
@@ -36,8 +36,8 @@ namespace menu::sdk
 	// List<GhostEvidence>
 	struct ListGhostEvidence
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		ListGhostEvidenceFields Fields;
 	};
 }

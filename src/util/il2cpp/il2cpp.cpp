@@ -24,7 +24,10 @@ namespace menu
         il2cpp_type_get_name = reinterpret_cast<il2cpp_type_get_name_t>(GetProcAddress(game_assembly, "il2cpp_type_get_name"));
         il2cpp_class_get_methods = reinterpret_cast<il2cpp_class_get_methods_t>(GetProcAddress(game_assembly, "il2cpp_class_get_methods"));
         il2cpp_method_get_name = reinterpret_cast<il2cpp_method_get_name_t>(GetProcAddress(game_assembly, "il2cpp_method_get_name"));
-
+        il2cpp_class_get_type = reinterpret_cast<il2cpp_class_get_type_t>(GetProcAddress(game_assembly, "il2cpp_class_get_type"));
+        il2cpp_type_get_object = reinterpret_cast<il2cpp_type_get_object_t>(GetProcAddress(game_assembly, "il2cpp_type_get_object"));
+        il2cpp_array_new = reinterpret_cast<il2cpp_array_new_t>(GetProcAddress(game_assembly, "il2cpp_array_new"));
+        il2cpp_value_box = reinterpret_cast<il2cpp_value_box_t>(GetProcAddress(game_assembly, "il2cpp_value_box"));
 
 		domain = il2cpp_domain_get();
 		assembly_image = il2cpp_assembly_get_image(il2cpp_domain_assembly_open(domain, "Assembly-CSharp"));
@@ -49,8 +52,7 @@ namespace menu
             {"System.Single", "float"},
             {"System.Double", "double"},
             {"System.String", "std::string"},
-            {"System.Object", "void*"},
-
+            {"System.Object", "void*"}
         };
 
         auto it = map.find(t);

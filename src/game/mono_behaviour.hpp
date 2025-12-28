@@ -30,8 +30,8 @@ namespace menu::sdk
 
 	struct MonoBehaviour
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		MonoBehaviourFields Fields;
 	};
 
@@ -46,6 +46,6 @@ namespace menu::sdk
 		MonoBehaviourPunFields _;
 	};
 
-	DECLARE_POINTER(Behaviour_Set_Enabled, void(*)(Behaviour* behaviour, bool enabled, method_info* methodInfo), "UnityEngine.CoreModule", "UnityEngine", "Behaviour",
+	DECLARE_POINTER(Behaviour_Set_Enabled, void(*)(Behaviour* behaviour, bool enabled, MethodInfo* methodInfo), "UnityEngine.CoreModule", "UnityEngine", "Behaviour",
 	                       "set_enabled", 1);
 }

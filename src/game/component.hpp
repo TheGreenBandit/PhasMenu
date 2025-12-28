@@ -9,9 +9,9 @@ namespace menu::sdk
 	{
 	};
 
-	DECLARE_POINTER(Component_Get_Transform, Transform* (*)(Component* component, method_info* mi), "UnityEngine.CoreModule", "UnityEngine", "Component",
+	DECLARE_POINTER(Component_Get_Transform, Transform* (*)(Component* component, MethodInfo* mi), "UnityEngine.CoreModule", "UnityEngine", "Component",
 		"get_transform", 0);
 
-	DECLARE_POINTER(Component_Get_GameObject, GameObject* (*)(Component* component, method_info* mi), "UnityEngine.CoreModule", "UnityEngine", "Component",
+	DECLARE_POINTER(Component_Get_GameObject, GameObject* (*)(Component* component, MethodInfo* mi), "UnityEngine.CoreModule", "UnityEngine", "Component",
 		"set_transform", 1);
 }

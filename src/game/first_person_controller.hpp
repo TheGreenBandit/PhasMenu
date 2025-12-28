@@ -41,10 +41,10 @@ namespace menu::sdk
 
 	struct FirstPersonController
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		FirstPersonControllerFields Fields;
 	};
 
-	DECLARE_POINTER(FirstPersonController_Update, void (*)(FirstPersonController* firstPersonController, method_info* methodInfo), "Assembly-CSharp", "", "FirstPersonController", "Update", 0);
+	DECLARE_POINTER(FirstPersonController_Update, void (*)(FirstPersonController* firstPersonController, MethodInfo* methodInfo), "Assembly-CSharp", "", "FirstPersonController", "Update", 0);
 }

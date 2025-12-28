@@ -11,18 +11,18 @@ namespace menu::sdk
 
 	struct String
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		StringFields Fields;
 	};
 
 	// String[]
 	struct StringArray
 	{
-		void* Clazz;
-		void* Monitor;
-		void* Bounds; // Il2CppArrayBounds
-		void* MaxLength; // Il2CppArraySizeT
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
+		Il2CppArrayBounds* Bounds; // Il2CppArrayBounds
+		Il2CppArraySize* MaxLength; // Il2CppArraySizeT
 		String* Vector[332];
 	};
 
@@ -37,10 +37,10 @@ namespace menu::sdk
 	// List<String>
 	struct ListString
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		ListStringFields Fields;
 	};
 
-	DECLARE_POINTER(Marshal_PtrToStringAnsi, String* (*)(void* pointer, method_info* mi), "mscorlib", "System.Runtime.InteropServices", "Marshal", "PtrToStringAnsi", 1);
+	DECLARE_POINTER(Marshal_PtrToStringAnsi, String* (*)(void* pointer, MethodInfo* mi), "mscorlib", "System.Runtime.InteropServices", "Marshal", "PtrToStringAnsi", 1);
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include "sdk.hpp"
 #include "ghost_ai.hpp"
+#include "key.hpp"
 
 namespace menu::sdk
 {
@@ -27,10 +28,10 @@ namespace menu::sdk
 		void* Crucifix; // List<Crucifix>
 		void* FireSources; // List<FireSource>
 		void* AllEquipment; // List<PhotonObjectInteract>
-		void* PossibleMaleFirstNames; // string[]
-		void* PossibleFemaleFirstNames; // string[]
-		void* PossibleLastNames; // string[]
-		void* MainDoorKey; // Key
+		StringArray* PossibleMaleFirstNames; // string[]
+		StringArray* PossibleFemaleFirstNames; // string[]
+		StringArray* PossibleLastNames; // string[]
+		Key* MainDoorKey; // Key
 		void* AllBlockedZones; // BlockedZone[]
 		int IntermediateZonesBlocked;
 		int ProZonesBlocked;
@@ -41,8 +42,8 @@ namespace menu::sdk
 
 	struct LevelController
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		LevelControllerFields Fields;
 	};
 }

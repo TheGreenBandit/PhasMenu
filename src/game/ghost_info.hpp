@@ -19,8 +19,8 @@ namespace menu::sdk
 
 	struct GhostInfo
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		GhostInfoFields Fields;
 	};
 }

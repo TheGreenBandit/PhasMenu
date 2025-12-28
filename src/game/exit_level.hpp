@@ -8,5 +8,5 @@ namespace menu::sdk
 	{
 	};
 
-	DECLARE_POINTER(ExitLevel_Exit, void(*)(ExitLevel* el, void* photonMessageInfo, method_info* methodInfo), "Assembly-CSharp", "", "ExitLevel", "Exit", 1);
+	DECLARE_POINTER(ExitLevel_Exit, void(*)(ExitLevel* el, void* photonMessageInfo, MethodInfo* methodInfo), "Assembly-CSharp", "", "ExitLevel", "Exit", 1);
 }

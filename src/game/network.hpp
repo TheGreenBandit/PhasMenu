@@ -60,7 +60,7 @@ namespace menu::sdk
 	{
 		bool PlayerReady;
 		int PlayerCharacterIndex;
-		void* PhotonPlayer; // Photon.Realtime.Player //neeeedddddddd, very useful
+		PhotonPlayer* PhotonPlayer; // Photon.Realtime.Player //neeeedddddddd, very useful
 		String* UnityPlayerID;//String*
 		int Experience;
 		int Level;
@@ -92,18 +92,18 @@ namespace menu::sdk
 	// Network.PlayerSpot
 	struct NetworkPlayerSpot
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		NetworkPlayerSpotFields Fields;
 	};
 
 	// Network.PlayerSpot[]
 	struct NetworkPlayerSpotArray
 	{
-		void* Clazz;
-		void* Monitor;
-		void* Bounds; // Il2CppArrayBounds
-		void* MaxLength; // Il2CppArraySizeT
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
+		Il2CppArrayBounds* Bounds; // Il2CppArrayBounds
+		il2cpp_array_size_t* MaxLength; // Il2CppArraySizeT
 		NetworkPlayerSpot* Vector[32];
 	};
 
@@ -112,14 +112,14 @@ namespace menu::sdk
 		NetworkPlayerSpotArray* Items;
 		int32_t Size;
 		int32_t Version;
-		void* SyncRoot; // Object
+		Object* SyncRoot; // Object
 	};
 
 	// List<Network.PlayerSpot>
 	struct ListNetworkPlayerSpot
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		ListNetworkPlayerSpotFields Fields;
 	};
 
@@ -143,21 +143,21 @@ namespace menu::sdk
 		void* OnPlayerColorChanged; // UnityEvent
 		void* LevelSystem; // LevelSystem
 		bool IsChangingScenes;
-		void* LastOnlineRoomName;//String*
+		String* LastOnlineRoomName;//String*
 		void* RecentKickedFromRooms; // HashSet<String>
 		bool FailedToConnectToVivox;
 		bool IsAttemptingVivoxLogin;
 		void* InviteSystem; // Network.InviteSystem
 		bool IsChangingRooms;
-		void* ChangeToRegionOnDisconnect;//String*
+		String* ChangeToRegionOnDisconnect;//String*
 	};
 
 	struct Network
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		NetworkFields Fields;
 	};
 
-	DECLARE_POINTER(Network_Get_Network, Network* (*)(method_info* mi), "Assembly-CSharp", "", "Network", "get_Instance", 0);
+	DECLARE_POINTER(Network_Get_Network, Network* (*)(MethodInfo* mi), "Assembly-CSharp", "", "Network", "get_Instance", 0);
 }

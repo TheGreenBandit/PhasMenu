@@ -1,6 +1,7 @@
 #pragma once
 #include "sdk.hpp"
 #include "ghost_info.hpp"
+#include "ghost_activity.hpp"
 
 namespace menu::sdk
 {
@@ -40,7 +41,7 @@ namespace menu::sdk
 		void* Agent; // NavMeshAgent
 		void* GhostAudio; // GhostAudio
 		void* GhostInteraction; // GhostInteraction
-		void* GhostActivity;//GhostActivity*
+		GhostActivity* GhostActivity;//GhostActivity*
 		void* CurrentModel; // GhostModel
 		void* HalloweenModel; // GhostModel
 		void* HolidayModel; // GhostModel
@@ -96,16 +97,16 @@ namespace menu::sdk
 
 	struct GhostAI
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		GhostAIFields Fields;
 	};
 
 
-	DECLARE_POINTER(GhostAI_Hunting, void(*)(GhostAI* gai, bool isHunting, int a1, void* PhotonMessageInfo, method_info* mi), "Assembly-CSharp", "", "GhostAI",
+	DECLARE_POINTER(GhostAI_Hunting, void(*)(GhostAI* gai, bool isHunting, int a1, void* PhotonMessageInfo, MethodInfo* mi), "Assembly-CSharp", "", "GhostAI",
 		"Hunting", 3);//tood add notifcation for this
 
-	DECLARE_POINTER(GhostAI_Start, void(*)(GhostAI* gai, method_info* mi), "Assembly-CSharp", "", "GhostAI", "Start", 0);
+	DECLARE_POINTER(GhostAI_Start, void(*)(GhostAI* gai, MethodInfo* mi), "Assembly-CSharp", "", "GhostAI", "Start", 0);
 
-	DECLARE_POINTER(GhostAI_Update, void(*)(GhostAI* gai, method_info* mi), "Assembly-CSharp", "", "GhostAI", "Update", 0);
+	DECLARE_POINTER(GhostAI_Update, void(*)(GhostAI* gai, MethodInfo* mi), "Assembly-CSharp", "", "GhostAI", "Update", 0);
 }

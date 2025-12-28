@@ -32,8 +32,8 @@ namespace menu::sdk
 
 	struct PhysicsCharacterController
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		PhysicsCharacterControllerFields Fields;
 	};
 }

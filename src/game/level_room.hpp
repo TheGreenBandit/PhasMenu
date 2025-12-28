@@ -27,8 +27,8 @@ namespace menu::sdk
 
 	struct LevelRoom
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		LevelRoomFields Fields;
 	};
 }

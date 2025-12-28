@@ -26,7 +26,7 @@ namespace menu::sdk
 		Transform* MapIcon; // Transform
 		PhotonObjectInteract* RightCurrentHeldObject; // PhotonObjectInteract
 		PhotonObjectInteract* LeftCurrentHeldObject; // PhotonObjectInteract
-		void* CharacterModels; // GameObject[]
+		GameObjectArray* CharacterModels; // GameObject[]
 		GameObject* GhostDeathHands; // GameObject
 		int32_t GhostRaycastMask; // LayerMask
 		void* HeadSock; // HeadMountedSocket
@@ -63,7 +63,7 @@ namespace menu::sdk
 		void* DeadPlayerSpawnPoint; // Transform
 		void* LeftHandInteractor; // XRBaseInteractor
 		void* RightHandInteractor; // XRBaseInteractor
-		void* XROrigin; // Transform
+		Transform* XROrigin; // Transform
 		void* MovementSettings; // VRMovementSettings
 		void* VRBelt; // VRBelt
 		void* LeftVRBeltDropZone; // XRSocketInteractor
@@ -74,17 +74,17 @@ namespace menu::sdk
 
 	struct Player
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		PlayerFields Fields;
 	};
 
 	struct PlayerArray
 	{
-		void* Clazz;
-		void* Monitor;
-		void* Bounds; // Il2CppArrayBounds
-		void* MaxLength; // Il2CppArraySizeT
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
+		Il2CppArrayBounds* Bounds; // Il2CppArrayBounds
+		Il2CppArraySize* MaxLength; // Il2CppArraySizeT
 		Player* Vector[65535];
 	};
 
@@ -93,23 +93,21 @@ namespace menu::sdk
 		PlayerArray* Items;
 		int32_t Size;
 		int32_t Version;
-		void* SyncRoot; // Object
+		Object* SyncRoot; // Object
 	};
 
 	struct ListPlayer
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		ListPlayerFields Fields;
 	};
 
-	DECLARE_POINTER(Player_KillPlayer, void(*)(Player* player, method_info* mi), "Assembly-CSharp", "", "Player", "KillPlayer", 0)
+	DECLARE_POINTER(Player_KillPlayer, void(*)(Player* player, MethodInfo* mi), "Assembly-CSharp", "", "Player", "KillPlayer", 0)
 
-	DECLARE_POINTER(Player_StartKillingPlayer, void(*)(Player* player, method_info* mi), "Assembly-CSharp", "", "Player", "StartKillingPlayer", 0)
+	DECLARE_POINTER(Player_StartKillingPlayer, void(*)(Player* player, MethodInfo* mi), "Assembly-CSharp", "", "Player", "StartKillingPlayer", 0)
 
-	DECLARE_POINTER(Player_StartKillingPlayerNetworked,
-		std::nullptr_t(*)(Player* player, bool revive, void* photonMessageInfo, method_info* mi),
-		"Assembly-CSharp", "", "Player", "StartKillingPlayerNetworked", 2)
+	DECLARE_POINTER(Player_StartKillingPlayerNetworked, std::nullptr_t(*)(Player* player, bool revive, void* photonMessageInfo, MethodInfo* mi), "Assembly-CSharp", "", "Player", "StartKillingPlayerNetworked", 2)
 
-	DECLARE_POINTER(Player_Teleport, void(*)(Player* player, Vector3 position, method_info* mi), "Assembly-CSharp", "", "Player", "Teleport", 1)
+	DECLARE_POINTER(Player_Teleport, void(*)(Player* player, Vector3 position, MethodInfo* mi), "Assembly-CSharp", "", "Player", "Teleport", 1)
 }

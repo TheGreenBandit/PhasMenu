@@ -1,13 +1,12 @@
 #pragma once
 #include "sdk.hpp"
+#include "photon_object_interact.hpp"
 
 namespace menu::sdk
 {
-	struct PhotonObjectInteract {};
-
 	enum KeyType : int32_t
 	{
-		None,
+		NONE,
 		Main,
 		Secondary,
 		PermanentLock
@@ -24,13 +23,13 @@ namespace menu::sdk
 	{
 		MonoBehaviourPunFields MonoBehaviourPunFields;
 		KeyInfo info;
-		PhotonObjectInteract photonInteract;
+		PhotonObjectInteract* photonInteract;
 	};
 
 	struct Key
 	{
-		void* Clazz;
-		void* Monitor;
+		Il2CppClass* Clazz;
+		MonitorData* Monitor;
 		KeyFields Fields;
 	};
 }
