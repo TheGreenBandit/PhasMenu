@@ -29,6 +29,7 @@ namespace menu
 	using il2cpp_array_new_t = void*(*)(Il2CppClass* klass, il2cpp_array_size_t arg_count);
 	using il2cpp_value_box_t = Il2CppObject* (*)(Il2CppClass* klass, void* data);
 	using il2cpp_object_new_t = Il2CppObject* (*)(Il2CppClass* klass);
+	using il2cpp_object_unbox_t = void*(*)(Il2CppObject* obj);
 
 	class il2cpp
 	{
@@ -59,6 +60,7 @@ namespace menu
 		il2cpp_array_new_t il2cpp_array_new = nullptr;
 		il2cpp_value_box_t il2cpp_value_box = nullptr;
 		il2cpp_object_new_t il2cpp_object_new = nullptr;
+		il2cpp_object_unbox_t il2cpp_object_unbox = nullptr;
 
 		std::vector<std::function<void()>> method_initializers;
 

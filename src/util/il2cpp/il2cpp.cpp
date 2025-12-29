@@ -29,7 +29,7 @@ namespace menu
         il2cpp_array_new = reinterpret_cast<il2cpp_array_new_t>(GetProcAddress(game_assembly, "il2cpp_array_new"));
         il2cpp_value_box = reinterpret_cast<il2cpp_value_box_t>(GetProcAddress(game_assembly, "il2cpp_value_box"));
         il2cpp_object_new = reinterpret_cast<il2cpp_object_new_t>(GetProcAddress(game_assembly, "il2cpp_object_new"));
-
+        il2cpp_object_unbox = reinterpret_cast<il2cpp_object_unbox_t>(GetProcAddress(game_assembly, "il2cpp_object_unbox"));
 		domain = il2cpp_domain_get();
 		assembly_image = il2cpp_assembly_get_image(il2cpp_domain_assembly_open(domain, "Assembly-CSharp"));
 

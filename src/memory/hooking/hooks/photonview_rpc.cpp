@@ -21,7 +21,22 @@ namespace menu
 
 		std::string param = "";
 		for (int i = 0; i < parameters->max_length; i++)
-			param += std::string(((Il2CppClass*)parameters->vector[i]->klass)->name) += (parameters->max_length < 1 ? "None" : (parameters->max_length < 2 ? "" : i != parameters->max_length - 1 ? ", " : ""));
+		{
+			sdk::Object* p = parameters->vector[i];
+			std::string add = "";
+
+			if ((Il2CppClass*)p->klass == get_type_from_class("mscorlib", "System", "Boolean")->klass)//this works on our rpc calling but not on other rpc calling, our rpc calling with param doenst register the param also. something is def wrong
+				add = ((*reinterpret_cast<bool*>(g_il2cpp.il2cpp_object_unbox((Il2CppObject*)p))) ? "True" : "False");
+			else if (((Il2CppClass*)p->klass) == (get_type_from_class("mscorlib", "System", "Int32")->klass))
+				add = std::to_string(*reinterpret_cast<int*>(g_il2cpp.il2cpp_object_unbox((Il2CppObject*)p)));
+			else if ((Il2CppClass*)p->klass == get_type_from_class("mscorlib", "System", "String")->klass)
+				add = S(reinterpret_cast<sdk::String*>(g_il2cpp.il2cpp_object_unbox((Il2CppObject*)p)));
+			else
+				add = ((Il2CppClass*)p->klass)->name;
+				
+			param += add += (parameters->max_length < 1 ? "None" : (parameters->max_length < 2 ? "" : i != parameters->max_length - 1 ? ", " : ""));
+		}
+			
 
 		g_rpc_viewer->rpc_plain = std::format("NAME: {}, PARAMS: {}, TARGET: {}, FROM: {}", S(method_name), param, targ, S(sdk::PhotonView_ToString_ptr(_this, nullptr)));
 		//LOG(INFO) << "A RPC WAS CALLED!\n" << S(method_name) << "\n For:" << targ << "\n From:" << S(sdk::PhotonView_ToString_ptr(_this, nullptr));
