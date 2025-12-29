@@ -20,7 +20,7 @@ namespace menu
 
 			detour_hook_helper::add<hooks::photonview_rpc>("PVRPC", (void*)sdk::PhotonView_RPC_ptr);
 			detour_hook_helper::add<hooks::network_getnetwork>("NGN", (void*)sdk::Network_Get_Network_ptr);
-			detour_hook_helper::add<hooks::exitlevel_exit>("ELE", (void*)sdk::ExitLevel_Exit_ptr);
+			//detour_hook_helper::add<hooks::exitlevel_exit>("ELE", (void*)sdk::ExitLevel_Exit_ptr);
 			detour_hook_helper::add<hooks::firstpersoncontroller_update>("FPCU", (void*)sdk::FirstPersonController_Update_ptr);
 		}
 		catch (std::exception& e)

@@ -54,5 +54,60 @@ namespace menu::sdk
 		il2cpp_array_size_t max_length;//il2cpp_array_size_t*
 		Object* vector[32];
 	};
+
+	struct Boolean__VTable {
+		VirtualInvokeData Equals;
+		VirtualInvokeData Finalize;
+		VirtualInvokeData GetHashCode;
+		VirtualInvokeData ToString;
+		VirtualInvokeData CompareTo;
+		VirtualInvokeData GetTypeCode;
+		VirtualInvokeData System_IConvertible_ToBoolean;
+		VirtualInvokeData System_IConvertible_ToChar;
+		VirtualInvokeData System_IConvertible_ToSByte;
+		VirtualInvokeData System_IConvertible_ToByte;
+		VirtualInvokeData System_IConvertible_ToInt16;
+		VirtualInvokeData System_IConvertible_ToUInt16;
+		VirtualInvokeData System_IConvertible_ToInt32;
+		VirtualInvokeData System_IConvertible_ToUInt32;
+		VirtualInvokeData System_IConvertible_ToInt64;
+		VirtualInvokeData System_IConvertible_ToUInt64;
+		VirtualInvokeData System_IConvertible_ToSingle;
+		VirtualInvokeData System_IConvertible_ToDouble;
+		VirtualInvokeData System_IConvertible_ToDecimal;
+		VirtualInvokeData System_IConvertible_ToDateTime;
+		VirtualInvokeData ToString_1;
+		VirtualInvokeData System_IConvertible_ToType;
+		VirtualInvokeData CompareTo_1;
+		VirtualInvokeData Equals_1;
+	};
+
+	struct Boolean__StaticFields {
+		struct String* TrueString;
+		struct String* FalseString;
+	};
+
+	struct Boolean__Class {
+		Il2CppClass_0 _0;
+		Il2CppRuntimeInterfaceOffsetPair* interfaceOffsets;
+		struct Boolean__StaticFields* static_fields;
+		const Il2CppRGCTXData* rgctx_data;
+		Il2CppClass_1 _1;
+		struct Boolean__VTable vtable;
+	};
+
+	struct Boolean 
+	{
+		bool m_value;
+	};
+
+	struct Boolean__Boxed 
+	{
+		struct Boolean__Class* klass;
+		MonitorData* monitor;
+		bool fields;
+	};
+
+
 	DECLARE_POINTER(Marshal_PtrToStructure, Object* (*)(void* pointer, Type* type, MethodInfo* mi), "mscorlib", "System.Runtime.InteropServices", "Marshal", "PtrToStructure", 1);
 }

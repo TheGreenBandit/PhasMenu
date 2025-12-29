@@ -20,14 +20,15 @@ namespace menu
 	using il2cpp_class_get_field_count_t = int(*)(void* klass);
 	using il2cpp_class_get_fields_t = void* (*)(void* klass, void** iter);
 	using il2cpp_field_get_name_t = const char* (*)(void* field);
-	using il2cpp_field_get_type_t = Il2CppType * (*)(void* field);
+	using il2cpp_field_get_type_t = Il2CppType* (*)(void* field);
 	using il2cpp_type_get_name_t = const char* (*)(void* type);
 	using il2cpp_class_get_methods_t = void* (*)(void* klass, void** iter);
 	using il2cpp_method_get_name_t = const char* (*)(void* method);
-	using il2cpp_class_get_type_t = Il2CppType * (*)(Il2CppClass* klass);
+	using il2cpp_class_get_type_t = Il2CppType* (*)(Il2CppClass* klass);
 	using il2cpp_type_get_object_t = Il2CppObject * (*)(const Il2CppType* type);
-	using il2cpp_array_new_t = void*(*)(Il2CppClass* klass, il2cpp_array_size_t  arg_count);
-	using il2cpp_value_box_t = Il2CppObject*(*)(Il2CppClass* klass, void* data);
+	using il2cpp_array_new_t = void*(*)(Il2CppClass* klass, il2cpp_array_size_t arg_count);
+	using il2cpp_value_box_t = Il2CppObject* (*)(Il2CppClass* klass, void* data);
+	using il2cpp_object_new_t = Il2CppObject* (*)(Il2CppClass* klass);
 
 	class il2cpp
 	{
@@ -57,6 +58,8 @@ namespace menu
 		il2cpp_type_get_object_t il2cpp_type_get_object = nullptr;
 		il2cpp_array_new_t il2cpp_array_new = nullptr;
 		il2cpp_value_box_t il2cpp_value_box = nullptr;
+		il2cpp_object_new_t il2cpp_object_new = nullptr;
+
 		std::vector<std::function<void()>> method_initializers;
 
 		void dump_to_file(std::filesystem::path path);

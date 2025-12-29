@@ -19,7 +19,11 @@ namespace menu
 			default: targ = "NULL?"; break;
 		}
 
-		g_rpc_viewer->rpc_plain = std::format("NAME: {}, PARAMS: {}, TARGET: {}, FROM: {}", S(method_name), "Unsupported", targ, S(sdk::PhotonView_ToString_ptr(_this, nullptr)));
+		std::string param = "";
+		for (int i = 0; i < parameters->max_length; i++)
+			param += std::string(((Il2CppClass*)parameters->vector[i]->klass)->name) += (parameters->max_length < 1 ? "None" : (parameters->max_length < 2 ? "" : i != parameters->max_length - 1 ? ", " : ""));
+
+		g_rpc_viewer->rpc_plain = std::format("NAME: {}, PARAMS: {}, TARGET: {}, FROM: {}", S(method_name), param, targ, S(sdk::PhotonView_ToString_ptr(_this, nullptr)));
 		//LOG(INFO) << "A RPC WAS CALLED!\n" << S(method_name) << "\n For:" << targ << "\n From:" << S(sdk::PhotonView_ToString_ptr(_this, nullptr));
 		//todo add argument logging?
 

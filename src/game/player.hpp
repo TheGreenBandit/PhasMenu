@@ -103,6 +103,7 @@ namespace menu::sdk
 		ListPlayerFields Fields;
 	};
 
+	DECLARE_POINTER(Player_ForceDropProps, void(*)(Player* player, bool unk, MethodInfo* mi), "Assembly-CSharp", "", "Player", "ForceDropProps", 1)
 	DECLARE_POINTER(Player_KillPlayer, void(*)(Player* player, MethodInfo* mi), "Assembly-CSharp", "", "Player", "KillPlayer", 0)
 
 	DECLARE_POINTER(Player_StartKillingPlayer, void(*)(Player* player, MethodInfo* mi), "Assembly-CSharp", "", "Player", "StartKillingPlayer", 0)
