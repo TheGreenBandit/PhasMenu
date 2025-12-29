@@ -23,7 +23,7 @@ namespace menu
 	{
 	public:
 		std::vector<sdk::NetworkPlayerSpot*> playerlist;
-
+		sdk::Player* selected_player = nullptr;
 		template<typename T>
 		sdk::PhotonView* get_photon_view(T* base)
 		{

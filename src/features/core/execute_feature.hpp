@@ -9,6 +9,7 @@ namespace menu
 	{
 		std::string m_label = "NULL";
 		std::string m_desc = "NULL";
+		bool m_ready = false;
 		int m_key = 0;
 
 	public:
@@ -20,6 +21,11 @@ namespace menu
 		execute_feature(const std::string label) : m_label(label), m_desc("")
 		{
 			g_execute_features.push_back(this);
+		}
+
+		bool& ready_for_action()
+		{
+			return m_ready;
 		}
 
 		virtual void action() {};

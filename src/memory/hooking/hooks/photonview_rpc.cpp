@@ -25,12 +25,14 @@ namespace menu
 			sdk::Object* p = parameters->vector[i];
 			std::string add = "";
 
-			if (((Il2CppClass*)p->klass)->name == get_class_from_name("mscorlib", "System", "Boolean")->name)//this works on our rpc calling but not on other rpc calling, our rpc calling with param doenst register the param also. something is def wrong
+			if (((Il2CppClass*)p->klass)->name == get_class_from_name("mscorlib", "System", "Boolean")->name)
 				add = ((*reinterpret_cast<bool*>(g_il2cpp.il2cpp_object_unbox((Il2CppObject*)p))) ? "True" : "False");
 			else if (((Il2CppClass*)p->klass)->name == (get_class_from_name("mscorlib", "System", "Int32")->name))
 				add = std::to_string(*reinterpret_cast<int*>(g_il2cpp.il2cpp_object_unbox((Il2CppObject*)p)));
 			else if (((Il2CppClass*)p->klass)->name == get_class_from_name("mscorlib", "System", "String")->name)
 				add = S(reinterpret_cast<sdk::String*>(g_il2cpp.il2cpp_object_unbox((Il2CppObject*)p)));
+			else if (((Il2CppClass*)p->klass)->name == (get_class_from_name("mscorlib", "System", "Single")->name))
+				add = std::to_string(*reinterpret_cast<float*>(g_il2cpp.il2cpp_object_unbox((Il2CppObject*)p)));
 			else
 				add = ((Il2CppClass*)p->klass)->name;
 				

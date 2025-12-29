@@ -77,4 +77,11 @@ namespace menu::sdk
 			return *this;
 		}
 	};
+
+	struct Vector3__Boxed 
+	{
+		struct Vector3__Class* klass;
+		MonitorData* monitor;
+		struct Vector3 fields;
+	};
 }

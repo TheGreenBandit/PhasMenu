@@ -25,18 +25,18 @@ namespace menu
 				return;
 
 			sdk::Object__Array* args = (sdk::Object__Array*)g_il2cpp.il2cpp_array_new(get_type_from_class("mscorlib", "System", "Object")->klass, 1);
-
-			bool value = true;
-			auto bool_class = get_class_from_name("mscorlib", "System", "Boolean");
-			//args->vector[0] = (sdk::Object*)g_il2cpp.il2cpp_value_box(bool_class, &value);
-			sdk::Boolean__Boxed* boxed_bool = (sdk::Boolean__Boxed*)g_il2cpp.il2cpp_object_new(bool_class);
-			boxed_bool->fields = false;
-
-
+			 
+			//auto bool_class = get_class_from_name("mscorlib", "System", "Boolean");
+			////args->vector[0] = (sdk::Object*)g_il2cpp.il2cpp_value_box(bool_class, &value);
+			//sdk::Boolean__Boxed* boxed_bool = (sdk::Boolean__Boxed*)g_il2cpp.il2cpp_object_new(bool_class);
+			//boxed_bool->fields = false;
+			auto single_class = get_class_from_name("mscorlib", "System", "Single");
+			sdk::Single__Boxed* boxed_single = (sdk::Single__Boxed*)g_il2cpp.il2cpp_object_new(single_class);
 			//ghostcontroller - make ghost appear, hunt etc
-			args->vector[0] = (sdk::Object*)boxed_bool;
+			boxed_single->fields = 0.0f; //set to 0 instanity/100sanity. Setting this to 100 would be the equivalent of 0 sanity
+			args->vector[0] = (sdk::Object*)boxed_single;
 			game::network->Fields.LocalPlayer->Fields.PlayerSanity->Fields.Insanity = 0;
-			sdk::PhotonView_RPC_ptr(view, S_("NetworkedCrouch"), sdk::RpcTarget::All, args, nullptr);
+			sdk::PhotonView_RPC_ptr(view, S_("NetworkedUpdatePlayerSanity"), sdk::RpcTarget::All, args, nullptr);
 
 			test = false;
 		}

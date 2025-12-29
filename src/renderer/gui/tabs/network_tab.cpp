@@ -20,6 +20,7 @@ namespace menu
 			{
 				name = S(g_game_util->playerlist.at(i)->Fields.AccountName).c_str();
 				selected_player = g_game_util->playerlist.at(i);
+				g_game_util->selected_player = g_game_util->playerlist.at(i)->Fields.Player;
 				is_player_selected = true;
 			}
 
@@ -48,17 +49,17 @@ namespace menu
 			ImGui::BeginChild("Playeroptions");
 
 			ImGui::SeparatorText("Account Info");
-			ImGui::Text(std::format("Prestige: {}", selected_player->Fields.Prestige).c_str());
-			ImGui::Text(std::format("Level: {}", selected_player->Fields.Level).c_str());
-			ImGui::Text(std::format("Experience: {}", selected_player->Fields.Experience).c_str());
-			ImGui::SeparatorText("Player Info");
-			ImGui::Text(selected_player->Fields.Player->Fields.IsDead ? "Dead" : "Alive");
-			ImGui::Text(std::format("Current Speed: {}", selected_player->Fields.Player->Fields.MovementSpeed).c_str());
-			ImGui::Text(std::format("Sanity: {}", 100 - selected_player->Fields.Player->Fields.PlayerSanity->Fields.Insanity).c_str());
-			ImGui::Text(std::format("Current Room: {}", selected_player->Fields.Player->Fields.CurrentRoom != nullptr ? S(selected_player->Fields.Player->Fields.CurrentRoom->Fields.RoomName) : "Not in a room.").c_str());
-			auto curpos = selected_player->Fields.Player->Fields.MapIcon->position;
-			ImGui::Text(std::format("Position: X:{} Y:{} Z:{}", curpos->X, curpos->Y, curpos->Z).c_str());
-
+			//ImGui::Text(std::format("Prestige: {}", selected_player->Fields.Prestige).c_str());
+			//ImGui::Text(std::format("Level: {}", selected_player->Fields.Level).c_str());
+			//ImGui::Text(std::format("Experience: {}", selected_player->Fields.Experience).c_str());
+			//ImGui::SeparatorText("Player Info");
+			//ImGui::Text(selected_player->Fields.Player->Fields.IsDead ? "Dead" : "Alive");
+			//ImGui::Text(std::format("Current Speed: {}", selected_player->Fields.Player->Fields.MovementSpeed).c_str());
+			//ImGui::Text(std::format("Sanity: {}", 100 - selected_player->Fields.Player->Fields.PlayerSanity->Fields.Insanity).c_str());
+			//ImGui::Text(std::format("Current Room: {}", selected_player->Fields.Player->Fields.CurrentRoom != nullptr ? S(selected_player->Fields.Player->Fields.CurrentRoom->Fields.RoomName) : "Not in a room.").c_str());
+			//auto curpos = selected_player->Fields.Player->Fields.MapIcon->position;
+			//ImGui::Text(std::format("Position: X:{} Y:{} Z:{}", curpos->X, curpos->Y, curpos->Z).c_str());
+			g_gui_util->button("Instakill");
 			ImGui::EndChild();
 		}
 		ImGui::EndChild();

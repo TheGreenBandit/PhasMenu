@@ -108,6 +108,52 @@ namespace menu::sdk
 		bool fields;
 	};
 
+	struct Void 
+	{
+	};
+
+	struct Void__Boxed 
+	{
+		struct Void__Class* klass;
+		MonitorData* monitor;
+		struct Void fields;
+	};
+
+	struct Int32 
+	{
+		int32_t m_value;
+	};
+
+	struct Int32__Boxed 
+	{
+		struct Int32__Class* klass;
+		MonitorData* monitor;
+		int32_t fields;
+	};
+
+	struct Char 
+	{
+		uint16_t m_value;
+	};
+
+	struct Char__Boxed 
+	{
+		struct Char__Class* klass;
+		MonitorData* monitor;
+		uint16_t fields;
+	};
+
+	struct Single 
+	{
+		float m_value;
+	};
+
+	struct Single__Boxed 
+	{
+		struct Single__Class* klass;
+		MonitorData* monitor;
+		float fields;
+	};
 
 	DECLARE_POINTER(Marshal_PtrToStructure, Object* (*)(void* pointer, Type* type, MethodInfo* mi), "mscorlib", "System.Runtime.InteropServices", "Marshal", "PtrToStructure", 1);
 }

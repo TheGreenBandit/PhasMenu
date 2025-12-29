@@ -9,6 +9,22 @@ namespace menu
 	class gui_util
 	{
 	public:
+		void button(std::string_view featurelabel)
+		{
+			execute_feature* feature = feature::get_executefeature_from_label(featurelabel);
+			if (feature == g_default_execute)
+			{
+				ImGui::Text("NULL FEATURE! %s", featurelabel.data());
+				return;
+			}
+			ImGui::PushID(feature->label().c_str());
+			if (ImGui::Button(feature->label().c_str()))
+				feature->ready_for_action() = true;
+			if (ImGui::IsItemHovered() && !feature->description().empty())
+				ImGui::SetTooltip(feature->description().c_str());
+			ImGui::PopID();
+		}
+
 		void checkbox(std::string_view featurelabel)
 		{
 			toggle_feature* feature = feature::get_togglefeature_from_label(featurelabel);
