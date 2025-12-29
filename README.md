@@ -1,6 +1,15 @@
 # Preview
 <img width="1920" height="1080" alt="phasmenualpha" src="https://github.com/user-attachments/assets/7d86effd-2c43-46d8-a347-b52d2ae06ee2" />
+todo update preview image
 
+# Building / Usage
+to build you will need to have Cmake 3.5 or greater. 
+download the menu zip or make your own fork and use command prompt to cd into the project folder
+then make a directory called build
+go into that directory and call cmake .. 
+wait for the build files to generate and then just build the solution
+
+to use the menu dll you will have to download extremeinjector or xenos, or for simplicity you can just use my loader to avoid all these steps
 
 # info
 a c++ imgui menu for the game phasmophobia. This is still a work in progress and has minimal features currently as I update it.
