@@ -27,7 +27,7 @@ namespace menu
 			sdk::Object__Array* args = (sdk::Object__Array*)g_il2cpp.il2cpp_array_new(get_type_from_class("mscorlib", "System", "Object")->klass, 1);
 
 			bool value = true;
-			auto bool_class = get_type_from_class("mscorlib", "System", "Boolean")->klass;
+			auto bool_class = get_class_from_name("mscorlib", "System", "Boolean");
 			//args->vector[0] = (sdk::Object*)g_il2cpp.il2cpp_value_box(bool_class, &value);
 			sdk::Boolean__Boxed* boxed_bool = (sdk::Boolean__Boxed*)g_il2cpp.il2cpp_object_new(bool_class);
 			boxed_bool->fields = false;

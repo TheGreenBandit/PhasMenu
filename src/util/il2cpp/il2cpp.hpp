@@ -82,6 +82,19 @@ inline Il2CppObject* get_type_from_class(Il2CppClass* clazz)
 		return g_il2cpp.il2cpp_type_get_object(type);
 }
 
+inline Il2CppClass* get_class_from_name(const char* assembly_name, const char* namespaze, const char* className)
+{
+	Il2CppImage* image = g_il2cpp.assembly_image;
+	if (strcmp(assembly_name, "Assembly-CSharp") != 0)
+	{
+		image = g_il2cpp.il2cpp_assembly_get_image(g_il2cpp.il2cpp_domain_assembly_open(g_il2cpp.domain, assembly_name));
+		if (!image)
+			return nullptr;
+	}
+
+	return g_il2cpp.il2cpp_class_from_name(image, namespaze, className);
+}
+
 inline Il2CppObject* get_type_from_class(const char* assembly_name, const char* namespaze, const char* className)
 {
 	Il2CppImage* image = g_il2cpp.assembly_image;
